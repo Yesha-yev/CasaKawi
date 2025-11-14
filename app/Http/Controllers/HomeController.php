@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Kategori;
-use App\Models\Karya;
+use App\Models\Budaya;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
@@ -13,11 +13,12 @@ class HomeController extends Controller
     public function index()
     {
         //hitung jumlah karya per kategori pakai withCount
-        $kategoriData = Kategori::withCount('karya')->get();
+        $kategoriData = Kategori::withCount('karyas')->get();
         // nama label untuk chart
-        $labels = $kategoriData->pluck('nama_kategori');       // array nama kategori
-        $values = $kategoriData->pluck('karya_count');         // array jumlah karya tiap kategori
+        $lokasi = Budaya::whereNotNull('latitude')
+            ->whereNotNull('longitude')
+            ->get(['id','nama','asal_daerah','latitude','longitude']);
 
-        return view('landing', compact('labels','values'));
+        return view('landing', compact('kategoriData','lokasi'));
     }
 }

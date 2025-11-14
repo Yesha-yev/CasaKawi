@@ -1,28 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>REGISTER - CasaKawi</title>
-</head>
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Register</title></head>
 <body>
-    <h2>Register (Seniman)</h2>
-    <form method="POST" action="{{ route('register.post') }}"></form>
+  <h2>Daftar (Seniman)</h2>
+  <form method="POST" action="{{ route('register.post') }}">
     @csrf
-    <label for="">Nama</label>
-    <input type="text" name="name" value="{{ old('name') }}" required>
-    <label for="">Email</label>
-    <input type="text" name="email" value="{{ old('email') }}" required>
-    <label for="">Password</label>
-    <input type="password" name="password" required>
-    <label for="">Konfirmasi Password</label>
-    <input type="password" name="password_confirmation" required>
-    <button type="submit">Register</button>
-    </form>
-    @if($errors->any())
-        <p style="color:red">{{ $errors->first() }}</p>
-    @endif
-    <p>Sudah punya akun? <a href="{{ route('login') }}">Login</a></p>
+    <label>Nama</label><br>
+    <input name="name" required value="{{ old('name') }}"><br>
+    <label>Email</label><br>
+    <input name="email" type="email" required value="{{ old('email') }}"><br>
+    <label>Password</label><br>
+    <input name="password" type="password" required><br>
+    <label>Konfirmasi Password</label><br>
+    <input name="password_confirmation" type="password" required><br><br>
+    <button type="submit">Daftar</button>
+  </form>
+  @if($errors->any())
+    <div style="color:red">{{ $errors->first() }}</div>
+  @endif
 </body>
 </html>

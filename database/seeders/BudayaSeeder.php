@@ -14,11 +14,15 @@ class BudayaSeeder extends Seeder
     public function run(): void
     {
         //
-        Budaya::create([
-            'nama' => 'Tari Gandrung',
-            'kategori' => 'Tari',
-            'deskripsi' => 'Tari tradisional Banyuwangi sebagai bentuk penghormatan pada Dewi Sri.',
-            'asal_daerah' => 'Banyuwangi',
+         Budaya::firstOrCreate(['nama'=>'Tari Gandrung'], [
+            'deskripsi'=>'Tari tradisional Banyuwangi',
+            'asal_daerah'=>'Banyuwangi',
+            'kategori'=>'Tari',
+            'latitude'=> -8.216, 'longitude'=>114.365
+        ]);
+        Budaya::firstOrCreate(['nama'=>'Reog Ponorogo'], [
+            'deskripsi'=>'Seni pertunjukan Ponorogo', 'asal_daerah'=>'Ponorogo', 'kategori'=>'Tari',
+            'latitude'=> -7.849, 'longitude'=>111.470
         ]);
     }
 }

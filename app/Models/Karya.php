@@ -13,11 +13,15 @@ class Karya extends Model
 
     public function kategori()
     {
-        return $this->belongsTo(Kategori::class);
+        return $this->belongsTo(Kategori::class,'kategori_id');
     }
 
     public function seniman()
     {
         return $this->belongsTo(User::class, 'seniman_id');
+    }
+    public function karyas()
+    {
+        return $this->hasMany(Karya::class);
     }
 }

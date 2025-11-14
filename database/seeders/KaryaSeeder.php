@@ -16,21 +16,20 @@ class KaryaSeeder extends Seeder
     public function run(): void
     {
         //
-        $seniman = User::where('role', 'seniman')->first(); // Pastikan ada seniman
+        $seniman = User::where('role','seniman')->first();
+        $kats = Kategori::all();
+        if (!$seniman || $kats->isEmpty()) return;
 
-        if ($seniman) {
-            $kategori = Kategori::all();
-            foreach ($kategori as $kat) {
-                for ($i = 1; $i <= 2; $i++) {
-                    Karya::create([
-                        'nama_karya' => "Karya $i $kat->nama_kategori",
-                        'tahun_dibuat' => 2020 + $i,
-                        'asal_daerah' => 'Daerah ' . $kat->nama_kategori,
-                        'kategori_id' => $kat->id,
-                        'seniman_id' => $seniman->id,
-                        'deskripsi' => "Deskripsi singkat tentang $kat->nama_kategori ke-$i",
-                    ]);
-                }
+        foreach ($kats as $kat) {
+            for ($i=1;$i<=2;$i++){
+                Karya::create([
+                    'nama_karya'=> "Karya $i ".$kat->nama_kategori,
+                    'tahun_dibuat'=> 2020 + $i,
+                    'asal_daerah'=> 'Daerah '.$kat->nama_kategori,
+                    'kategori_id'=>$kat->id,
+                    'seniman_id'=>$seniman->id,
+                    'deskripsi'=>'Deskripsi singkat '.$kat->nama_kategori,
+                ]);
             }
         }
     }

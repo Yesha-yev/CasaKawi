@@ -7,7 +7,9 @@ use App\Models\Karya;
 use App\Models\Kategori;
 use App\Models\User;
 use App\Models\Laporan;
+use App\Models\Budaya;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -17,11 +19,27 @@ class AdminController extends Controller
     public function index()
     {
         //
-        $jumlahSeniman=User::where('role','seniman')->count();
-        $jumlahKarya=Karya::count();
-        $jumlahLaporan=Laporan::count();
+        $jumlahSeniman = User::where('role', 'seniman')->count();
+        $jumlahKarya = Karya::count();
+        $jumlahBudaya = Budaya::count();
+        $jumlahKategori = Kategori::count();
+        $jumlahLaporan = Laporan::count();
 
-        return view('admin.dashboard',compact('jumlahSeniman','jumlahKarya','jumlahLaporan'));
+        $kategoriData = Kategori::withCount('karyas')->get();
+
+        $budayaByDaerah = Budaya::select('asal_daerah', DB::raw('COUNT(*) as total'))
+            ->groupBy('asal_daerah')
+            ->get();
+
+        return view('admin.dashboard', compact(
+            'jumlahSeniman',
+            'jumlahKarya',
+            'jumlahBudaya',
+            'jumlahKategori',
+            'jumlahLaporan',
+            'kategoriData',
+            'budayaByDaerah'
+        ));
     }
     public function kelolaSeniman(){
         $seniman =User::where('role','seniman')->get();

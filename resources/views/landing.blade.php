@@ -1,51 +1,69 @@
-<!doctype html>
-<html lang="id">
-<head>
-  <meta charset="utf-8">
-  <title>Casa Kawi - Landing</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <!-- pilih styling: pakai Bootstrap CDN cepat -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body class="bg-light">
-  <div class="container py-4">
-    <h1 class="mb-4">Jumlah Karya per Kategori</h1>
+@extends('layouts.app')
 
-    <div class="card p-3 mb-4">
-      <canvas id="kategoriChart" height="120"></canvas>
-    </div>
+@section('title','Casa Kawi — Beranda')
 
-    <div class="card p-3">
-      <h5>Data Kategori (raw)</h5>
-      <pre>{{ json_encode($labels) }} => {{ json_encode($values) }}</pre>
-    </div>
-  </div>
+@section('content')
 
-  <script>
-    // ambil data dari PHP yang dikirim controller
-    const labels = {!! json_encode($labels) !!};
-    const values = {!! json_encode($values) !!};
+<div class="card p-4 mb-4">
+    <h2>Selamat datang di Casa Kawi</h2>
+    <p>Galeri Digital Budaya Jawa Timur — jelajahi peta, timeline, dan karya seniman.</p>
+</div>
 
-    const ctx = document.getElementById('kategoriChart').getContext('2d');
-    const kategoriChart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: labels,
-        datasets: [{
-          label: 'Jumlah Karya',
-          data: values,
-          backgroundColor: labels.map((l, idx) => 'rgba(54,162,235,0.6)'),
-          borderColor: labels.map((l, idx) => 'rgba(54,162,235,1)'),
-          borderWidth: 1
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: { legend: { display: false } },
-        scales: { y: { beginAtZero: true, ticks: { precision:0 } } }
-      }
+<div class="card p-3 mb-4">
+    <h5>Peta Persebaran Budaya</h5>
+    <div id="map" style="height: 400px;"></div>
+</div>
+
+@if(isset($kategoriData))
+<div class="card p-3 mb-4">
+    <h5>Grafik Karya per Kategori</h5>
+    <canvas id="kategoriChart"></canvas>
+</div>
+@endif
+
+@endsection
+
+@push('scripts')
+<script>
+    const map = L.map('map').setView([-7.9778, 112.6347], 7); // Jawa Timur
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18
+    }).addTo(map);
+
+    const lokasi = {!! json_encode($lokasi) !!};
+
+    lokasi.forEach(item => {
+        L.marker([item.latitude, item.longitude])
+            .addTo(map)
+            .bindPopup(`<b>${item.nama}</b><br>${item.asal_daerah}`);
     });
-  </script>
-</body>
-</html>
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const labels = {!! json_encode($kategoriData->pluck('nama_kategori')) !!};
+    const values = {!! json_encode($kategoriData->pluck('karyas_count')) !!};
+
+    if (labels.length) {
+        new Chart(document.getElementById('kategoriChart'), {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Jumlah Karya',
+                    data: values,
+                    borderWidth: 2,
+                    fill: false
+                }]
+            },
+            options: {
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+    }
+</script>
+
+@endpush

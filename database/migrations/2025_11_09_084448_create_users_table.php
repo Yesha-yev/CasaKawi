@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->enum('role', ['admin', 'seniman'])->default('seniman');
+            $table->text('deskripsi')->nullable();
             $table->boolean('status')->default(true);
             //true itu artinya hidup dan false artinya meninggal
             $table->timestamps();

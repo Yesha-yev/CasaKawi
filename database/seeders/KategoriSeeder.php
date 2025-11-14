@@ -14,10 +14,10 @@ class KategoriSeeder extends Seeder
     public function run(): void
     {
         //
-    $kategori = ['Lukisan', 'Tari', 'Patung', 'Wayang', 'Pusaka', 'Candi','Alat Musik','Tekstil'];
+        $kategori = ['Lukisan', 'Tari', 'Patung', 'Wayang', 'Pusaka', 'Candi','Alat Musik','Tekstil'];
 
-    foreach ($kategori as $item) {
-        Kategori::create(['nama_kategori' => $item]);
-    }
+        foreach ($kategori as $item) {
+        Kategori::firstOrCreate(['nama_kategori' => $item]);
+        }
     }
 }

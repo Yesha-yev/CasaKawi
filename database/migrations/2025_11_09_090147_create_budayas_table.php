@@ -17,6 +17,8 @@ return new class extends Migration
             $table->text('deskripsi')->nullable();
             $table->string('asal_daerah');
             $table->string('kategori');
+            $table->decimal('latitude',10,7)->nullable();
+            $table->decimal('longitude',10,7)->nullable();
             $table->string('gambar')->nullable();
             $table->timestamps();
         });
