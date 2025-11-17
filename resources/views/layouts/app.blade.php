@@ -9,6 +9,10 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+    {{-- Bagian tambahan head (opsional) --}}
+    @yield('head')
+
     <style>
         body {
             background: #f8f9fa;
@@ -19,8 +23,6 @@
             padding-bottom: 2.5rem;
         }
     </style>
-
-    @stack('head')
 </head>
 
 <body>
@@ -30,12 +32,19 @@
         @yield('content')
     </main>
 
+    @if (session('success'))
+        <script>
+            alert("{{ session('success') }}");
+        </script>
+    @endif
+
     @include('components.footer')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-    @stack('scripts')
-</body>
+    {{-- Bagian scripts tambahan --}}
+    @yield('scripts')
 
+</body>
 </html>

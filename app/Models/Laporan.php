@@ -9,7 +9,7 @@ class Laporan extends Model
 {
     //
     use HasFactory;
-    protected $fillable=['nama', 'email', 'pesan'];
+    protected $fillable=['nama', 'email', 'pesan','status'];
     public function user(){
         return $this->belongsTo(User::class);
     }

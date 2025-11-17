@@ -1,45 +1,136 @@
-<!doctype html>
-<html>
-<head><meta charset="utf-8"><title>Admin Dashboard</title></head>
-<body>
-  <h1>Dashboard Admin</h1>
+@extends('layouts.app')
 
-  <p>Jumlah Seniman: {{ $jumlahSeniman }}</p>
-  <p>Jumlah Karya: {{ $jumlahKarya }}</p>
-  <p>Jumlah Budaya: {{ $jumlahBudaya }}</p>
-  <p>Jumlah Kategori: {{ $jumlahKategori }}</p>
-  <p>Jumlah Laporan: {{ $jumlahLaporan }}</p>
+@section('title','Admin Dashboard')
 
-  <hr>
-  <h3>Grafik Karya per Kategori</h3>
-  <canvas id="chartKategori" width="600" height="250"></canvas>
+@section('content')
+<div class="container py-4">
 
-  <h3>Grafik Budaya per Daerah</h3>
-  <canvas id="chartBudaya" width="600" height="250"></canvas>
+    <h2 class="mb-4 text-center fw-bold">📊 Dashboard Admin</h2>
 
-  <hr>
-  <p><a href="{{ route('admin.seniman.index') }}">Kelola Seniman</a> | <a href="{{ route('admin.laporan') }}">Lihat Laporan</a></p>
+    {{-- Statistik Angka --}}
+    <div class="row mb-4">
 
-  <form method="POST" action="{{ route('logout') }}">
-    @csrf
-    <button type="submit">Logout</button>
-  </form>
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm text-center">
+                <div class="card-body">
+                    <h5>Jumlah Seniman</h5>
+                    <h3 class="fw-bold">{{ $jumlahSeniman }}</h3>
+                </div>
+            </div>
+        </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
-    const labels = @json($kategoriData->pluck('nama_kategori')->toArray());
-    const counts = @json($kategoriData->pluck('karyas_count')->toArray());
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm text-center">
+                <div class="card-body">
+                    <h5>Jumlah Karya</h5>
+                    <h3 class="fw-bold">{{ $jumlahKarya }}</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm text-center">
+                <div class="card-body">
+                    <h5>Jumlah Budaya</h5>
+                    <h3 class="fw-bold">{{ $jumlahBudaya }}</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <div class="card shadow-sm text-center">
+                <div class="card-body">
+                    <h5>Jumlah Kategori</h5>
+                    <h3 class="fw-bold">{{ $jumlahKategori }}</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <div class="card shadow-sm text-center">
+                <div class="card-body">
+                    <h5>Jumlah Laporan</h5>
+                    <h3 class="fw-bold">{{ $jumlahLaporan }}</h3>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    {{-- Grafik Karya per Kategori --}}
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+            <h4 class="text-center mb-3">Grafik Karya per Kategori</h4>
+            <canvas id="chartKategori" style="height: 300px"></canvas>
+        </div>
+    </div>
+
+    {{-- Grafik Budaya per Daerah --}}
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+            <h4 class="text-center mb-3">Grafik Budaya per Daerah</h4>
+            <canvas id="chartBudaya" style="height: 300px"></canvas>
+        </div>
+    </div>
+
+    {{-- Link Navigasi --}}
+    <div class="text-center mt-4">
+        <a href="{{ route('admin.seniman.index') }}" class="btn btn-primary me-2">Kelola Seniman</a>
+        <a href="{{ route('admin.laporan') }}" class="btn btn-warning">Lihat Laporan</a>
+    </div>
+
+</div>
+@endsection
+
+@section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const labels = @json($kategoriData->pluck('nama_kategori'));
+    const counts = @json($kategoriData->pluck('karyas_count')).map(Number);
+
     new Chart(document.getElementById('chartKategori'), {
-      type:'line', data:{ labels: labels, datasets:[{ label:'Jumlah Karya', data: counts, borderWidth:2, fill:false }]},
-      options:{ scales:{ y:{ beginAtZero:true } } }
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Jumlah Karya',
+                data: counts,
+                borderColor: 'purple',
+                backgroundColor: 'rgba(128, 0, 128, 0.3)',
+                borderWidth: 2,
+                tension: 0.4,
+                fill: true,
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: { y: { beginAtZero: true } }
+        }
     });
 
-    const daerahLabels = @json($budayaByDaerah->pluck('asal_daerah')->toArray());
-    const daerahCounts = @json($budayaByDaerah->pluck('total')->toArray());
+    const daerahLabels = @json($budayaByDaerah->pluck('asal_daerah'));
+    const daerahCounts = @json($budayaByDaerah->pluck('total')).map(Number);
+
+    function randomColors(len) {
+        return Array.from({ length: len }, () => {
+            const r = Math.floor(Math.random() * 255);
+            const g = Math.floor(Math.random() * 255);
+            const b = Math.floor(Math.random() * 255);
+            return `rgba(${r}, ${g}, ${b}, 0.7)`;
+        });
+    }
+
     new Chart(document.getElementById('chartBudaya'), {
-      type:'bar', data:{ labels: daerahLabels, datasets:[{ label:'Jumlah Budaya', data: daerahCounts }]},
-      options:{ scales:{ y:{ beginAtZero:true } } }
+        type: 'pie',
+        data: {
+            labels: daerahLabels,
+            datasets: [{
+                data: daerahCounts,
+                backgroundColor: randomColors(daerahCounts.length),
+            }]
+        },
+        options: { responsive: true }
     });
-  </script>
-</body>
-</html>
+</script>
+@endsection

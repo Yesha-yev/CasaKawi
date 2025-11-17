@@ -25,7 +25,7 @@ class SenimanController extends Controller
         $data = $request->validate([
             'name'=>'required',
             'email'=>'required|email|unique:users',
-            'password'=>'required|confirmed|min:6',
+            'password'=>'required|confirmed|min:8',
             'status'=>'nullable|in:0,1'
         ]);
 
@@ -34,7 +34,7 @@ class SenimanController extends Controller
             'email'=>$data['email'],
             'password'=>Hash::make($data['password']),
             'role'=>'seniman',
-            'status'=>$data['status'] ?? 1,
+            'status'=>isset($data['status']) ? (bool)$data['status'] : true,
         ]);
 
         return redirect()->route('admin.seniman.index')->with('success','Seniman ditambahkan.');
@@ -52,7 +52,7 @@ class SenimanController extends Controller
         $data = $request->validate([
             'name'=>'required',
             'email'=>'required|email|unique:users,email,'.$user->id,
-            'password'=>'nullable|confirmed|min:6',
+            'password'=>'nullable|confirmed|min:8',
             'status'=>'nullable|in:0,1'
         ]);
 
@@ -67,10 +67,24 @@ class SenimanController extends Controller
         return redirect()->route('admin.seniman.index')->with('success','Seniman diperbarui.');
     }
 
+    public function createKarya(){
+        return view('seniman.karya.create');
+    }
+    public function destroy($id){
+        $user = User::findOrFail($id);
+
+        if ($user->karyas()->count() > 0) {
+            return back()->with('error','Tidak bisa menghapus: seniman memiliki karya.');
+        }
+
+        $user->delete();
+        return back()->with('success','Seniman dihapus.');
+    }
     public function dashboard()
     {
         $user = auth()->user();
         $karyas = $user->karyas()->latest()->get();
-        return view('seniman.dashboard', compact('user','karyas'));
+        $jumlahKarya = $karyas->count();
+        return view('seniman.dashboard', compact('user','karyas','jumlahKarya'));
     }
 }

@@ -17,7 +17,7 @@ class HomeController extends Controller
         // nama label untuk chart
         $lokasi = Budaya::whereNotNull('latitude')
             ->whereNotNull('longitude')
-            ->get(['id','nama','asal_daerah','latitude','longitude']);
+            ->get(['id','nama','asal_daerah','latitude','longitude','deskripsi']);
 
         return view('landing', compact('kategoriData','lokasi'));
     }
