@@ -58,10 +58,6 @@
 @endsection
 
 
-
-{{-- =====================
-     SCRIPTS SECTION
-===================== --}}
 @section('scripts')
 
 {{-- Leaflet Map --}}
@@ -74,7 +70,7 @@
 
     const lokasi = {!! json_encode($lokasi ?? []) !!};
 
-    // TTS Active Store
+    //TTS
     let activeAudios = {};
 
     function createPopup(item) {
@@ -87,11 +83,7 @@
             ${item.asal_daerah}<br><br>
             <small>${deskripsi}</small><br><br>
 
-            <button id="btn-${audioId}" class="btn btn-sm btn-primary"
-                onclick="toggleTTS('${escapedText}', '${audioId}')">
-                ▶ Putar Audio
-            </button>
-        `;
+            <button id="btn-${audioId}" class="btn btn-sm btn-primary" onclick="toggleTTS('${escapedText}', '${audioId}')"> ▶ Putar Audio</button>`;
     }
 
     function toggleTTS(text, audioId) {
@@ -120,7 +112,7 @@
         }
     }
 
-    // Add markers
+    //titik lokasi
     lokasi.forEach(item => {
         const marker = L.marker([item.latitude, item.longitude]).addTo(map);
 
