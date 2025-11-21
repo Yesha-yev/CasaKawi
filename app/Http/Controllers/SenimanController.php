@@ -23,7 +23,7 @@ class SenimanController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name'=>'required',
+            'name'=>'required|string|unique:users',
             'email'=>'required|email|unique:users',
             'password'=>'required|confirmed|min:8',
             'status'=>'nullable|in:0,1'
@@ -50,7 +50,7 @@ class SenimanController extends Controller
     {
         $user = User::findOrFail($id);
         $data = $request->validate([
-            'name'=>'required',
+            'name'=>'required|string|unique:users,name,'.$user->id,
             'email'=>'required|email|unique:users,email,'.$user->id,
             'password'=>'nullable|confirmed|min:8',
             'status'=>'nullable|in:0,1'
