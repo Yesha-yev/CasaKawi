@@ -37,3 +37,17 @@ Route::middleware(['auth','role:seniman'])->prefix('seniman')->group(function(){
     Route::get('/dashboard', [SenimanController::class, 'dashboard'])->name('seniman.dashboard');
     Route::get('/karya/create', [SenimanController::class, 'createKarya'])->name('seniman.karya.create');
 });
+
+// Galeri
+Route::get('/galeri', [ArtifactController::class, 'index'])->name('gallery.index');
+Route::get('/galeri/{id}', [ArtifactController::class, 'show'])->name('gallery.show');
+
+// Peta lokasi
+Route::get('/peta', [ArtifactController::class, 'map'])->name('gallery.map');
+
+// Timeline
+Route::get('/timeline', [TimelineController::class, 'index'])->name('timeline.index');
+
+// Laporan budaya
+Route::get('/laporkan-budaya', [ReportController::class, 'create'])->name('reports.create');
+Route::post('/laporkan-budaya', [ReportController::class, 'store'])->name('reports.store');
