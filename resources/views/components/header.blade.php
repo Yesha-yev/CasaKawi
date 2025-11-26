@@ -12,19 +12,25 @@
 
     <div class="collapse navbar-collapse" id="mainNav">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 nav-links">
+
         <li class="nav-item"><a class="nav-link" href="{{ route('landing') }}">Beranda</a></li>
-        <li class="nav-item"><a class="nav-link" href="#peta">Peta</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('statistik') ?? '#' }}">Statistik</a></li>
+
+        <li class="nav-item"><a class="nav-link" href="{{ url('/#peta') }}">Peta</a></li>
+
+        @if (Route::has('statistik'))
+          <li class="nav-item"><a class="nav-link" href="{{ route('statistik') }}">Statistik</a></li>
+        @endif
+
         <li class="nav-item">
-            @auth
-                @if(auth()->user()->role === 'admin')
-                    <a class="nav-link" href="{{ route('admin.laporan') }}">Laporan</a>
-                @else
-                    <a class="nav-link" href="{{ url('/#form-laporan') }}">Laporan</a>
-                @endif
+          @auth
+            @if(auth()->user()->role === 'admin')
+              <a class="nav-link" href="{{ route('admin.laporan') }}">Laporan</a>
             @else
-                <a class="nav-link" href="{{ url('/#form-laporan') }}">Laporan</a>
-            @endauth
+              <a class="nav-link" href="{{ url('/#form-laporan') }}">Laporan</a>
+            @endif
+          @else
+            <a class="nav-link" href="{{ url('/#form-laporan') }}">Laporan</a>
+          @endauth
         </li>
       </ul>
 
@@ -41,19 +47,29 @@
             </a>
 
             <ul class="dropdown-menu dropdown-menu-end">
+
+              {{-- ADMIN --}}
               @if(auth()->user()->role === 'admin')
                 <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}">Dashboard Admin</a></li>
                 <li><a class="dropdown-item" href="{{ route('admin.seniman.index') }}">Kelola Seniman</a></li>
+
+              {{-- SENIMAN --}}
               @elseif(auth()->user()->role === 'seniman')
                 <li><a class="dropdown-item" href="{{ route('seniman.dashboard') }}">Dashboard Seniman</a></li>
+                <li><a class="dropdown-item" href="{{ route('seniman.karya.index') }}">Karya Saya</a></li>
+                <li><a class="dropdown-item" href="{{ route('seniman.karya.create') }}">Tambah Karya</a></li>
+                <li><a class="dropdown-item" href="{{ route('seniman.profil.edit') }}">Edit Profil</a></li>
               @endif
+
               <li><hr class="dropdown-divider"></li>
+
               <li>
                 <form method="POST" action="{{ route('logout') }}" class="px-3 py-1">
                   @csrf
                   <button type="submit" class="btn btn-link text-decoration-none text-start w-100">Logout</button>
                 </form>
               </li>
+
             </ul>
           </li>
         @endauth
