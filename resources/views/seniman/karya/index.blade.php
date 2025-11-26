@@ -23,7 +23,7 @@
                     <th>Tahun</th>
                     <th>Asal Daerah</th>
                     <th>Deskripsi</th>
-                    <th>Audio</th> {{-- 🔊 Tambahan --}}
+                    <th>Audio</th>
                     <th width="150">Aksi</th>
                 </tr>
             </thead>
@@ -48,7 +48,6 @@
                         {{ $karya->deskripsi ?? '-' }}
                     </td>
 
-                    {{-- 🔊 Audio Player --}}
                     <td>
                         @if($karya->audio)
                             <audio controls style="width: 140px;">

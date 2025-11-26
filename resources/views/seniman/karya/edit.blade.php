@@ -4,13 +4,11 @@
 <div class="container">
     <h3>Edit Karya Seni</h3>
 
-    {{-- 🔊 Info Audio --}}
     <div class="alert alert-info">
         Audio penjelasan karya dibuat otomatis berdasarkan deskripsi.
         Jika Anda mengubah deskripsi, audio akan diperbarui otomatis setelah menekan tombol "Update".
     </div>
 
-    {{-- 🔊 Audio Player --}}
     @if($karya->audio)
     <div class="mb-3">
         <label>Audio Saat Ini</label>
@@ -56,7 +54,6 @@
             <textarea name="deskripsi" class="form-control" rows="3" required>{{ $karya->deskripsi }}</textarea>
         </div>
 
-        <!-- MAP -->
         <div class="mb-3">
             <label>Pilih Lokasi Karya</label>
             <div id="map" style="height: 300px;"></div>
@@ -92,7 +89,6 @@
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 <script>
-    // MAP
     var lat = {{ $karya->latitude ?? -7.250445 }};
     var lng = {{ $karya->longitude ?? 112.768845 }};
     var map = L.map('map').setView([lat, lng], 12);
@@ -111,7 +107,6 @@
         document.getElementById('longitude').value = e.latlng.lng;
     });
 
-    // IMAGE PREVIEW
     function previewImage(event) {
         var img = document.getElementById('preview');
         img.src = URL.createObjectURL(event.target.files[0]);

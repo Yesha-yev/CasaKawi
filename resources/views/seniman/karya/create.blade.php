@@ -4,7 +4,6 @@
 <div class="container">
     <h3>Tambah Karya Seni</h3>
 
-    {{-- 🔊 Info Audio TTS --}}
     <div class="alert alert-info">
         <strong>Catatan:</strong> Audio penjelasan karya akan <strong>dibuat otomatis</strong> berdasarkan deskripsi
         menggunakan fitur Text-to-Speech. Pastikan deskripsi ditulis dengan jelas.

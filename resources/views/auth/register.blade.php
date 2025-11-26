@@ -14,7 +14,6 @@
 
                 <div class="card-body">
 
-                    {{-- ALERT ERROR GLOBAL --}}
                     @if ($errors->any())
                         <div class="alert alert-danger">
                             <ul class="mb-0">
@@ -25,7 +24,6 @@
                         </div>
                     @endif
 
-                    {{-- ALERT SUCCESS --}}
                     @if(session('success'))
                         <div class="alert alert-success">
                             {{ session('success') }}

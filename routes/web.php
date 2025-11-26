@@ -23,9 +23,6 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::post('/laporan', [LaporanController::class, 'store'])->name('laporan.store');
 
 
-/* ======================
-     ADMIN
-======================= */
 Route::middleware(['auth','role:admin'])->prefix('admin')->group(function () {
 
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
@@ -44,14 +41,10 @@ Route::middleware(['auth','role:admin'])->prefix('admin')->group(function () {
 });
 
 
-/* ======================
-   SENIMAN
-======================= */
 Route::middleware(['auth','role:seniman'])->prefix('seniman')->group(function(){
 
     Route::get('/dashboard', [SenimanController::class, 'dashboard'])->name('seniman.dashboard');
 
-    // Karya CRUD
     Route::get('/karya', [SenimanController::class, 'indexKarya'])->name('seniman.karya.index');
 
     Route::get('/karya/create', [SenimanController::class, 'createKarya'])->name('seniman.karya.create');
@@ -62,7 +55,6 @@ Route::middleware(['auth','role:seniman'])->prefix('seniman')->group(function(){
 
     Route::delete('/karya/{id}', [SenimanController::class, 'deleteKarya'])->name('seniman.karya.delete');
 
-    // Profil
     Route::get('/profil', [SenimanController::class, 'editProfil'])->name('seniman.profil.edit');
     Route::put('/profil', [SenimanController::class, 'updateProfil'])->name('seniman.profil.update');
 

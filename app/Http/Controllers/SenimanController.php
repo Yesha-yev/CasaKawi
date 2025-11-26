@@ -10,39 +10,26 @@ use Illuminate\Support\Facades\Hash;
 
 class SenimanController extends Controller
 {
-    /* ============================================================
-                        🔊 TEXT TO SPEECH FUNCTION
-    ============================================================ */
-private function generateAudio($text, $fileName)
-{
-    $folder = public_path('uploads/audio');
+    private function generateAudio($text, $fileName)
+    {
+        $folder = public_path('uploads/audio');
 
-    if (!file_exists($folder)) {
-        mkdir($folder, 0777, true);
+        if (!file_exists($folder)) {
+            mkdir($folder, 0777, true);
+        }
+
+        $outputPath = $folder . '/' . $fileName . '.mp3';
+        $gtts = 'C:/laragon/bin/python/python-3.10/Scripts/gtts-cli.exe';
+        $command = "\"$gtts\" --lang id --slow \"$text\" -o \"$outputPath\"";
+        exec($command . " 2>&1", $output, $returnCode);
+
+        if ($returnCode !== 0) {
+            logger()->error('GTTS ERROR', ['cmd' => $command, 'output' => $output]);
+            return false;
+        }
+
+        return 'uploads/audio/' . $fileName . '.mp3';
     }
-
-    $outputPath = $folder . '/' . $fileName . '.mp3';
-
-    // FULL PATH untuk Windows + Laragon
-    $gtts = 'C:/laragon/bin/python/python-3.10/Scripts/gtts-cli.exe';
-
-    // Command harus pakai format Windows
-    $command = "\"$gtts\" --lang id --slow \"$text\" -o \"$outputPath\"";
-
-    exec($command . " 2>&1", $output, $returnCode);
-
-    if ($returnCode !== 0) {
-        logger()->error('GTTS ERROR', ['cmd' => $command, 'output' => $output]);
-        return false;
-    }
-
-    return 'uploads/audio/' . $fileName . '.mp3';
-}
-
-
-    /* ============================================================
-                        CRUD SENIMAN (ADMIN)
-    ============================================================ */
 
     public function index()
     {
@@ -102,11 +89,6 @@ private function generateAudio($text, $fileName)
         return redirect()->route('admin.seniman.index')->with('success', 'Seniman berhasil diperbarui.');
     }
 
-
-    /* ============================================================
-                        DASHBOARD SENIMAN
-    ============================================================ */
-
     public function dashboard()
     {
         $user = auth()->user();
@@ -115,11 +97,6 @@ private function generateAudio($text, $fileName)
 
         return view('seniman.dashboard', compact('user', 'karyas', 'jumlahKarya'));
     }
-
-
-    /* ============================================================
-                        PROFIL SENIMAN
-    ============================================================ */
 
     public function editProfil()
     {
@@ -148,11 +125,6 @@ private function generateAudio($text, $fileName)
 
         return redirect()->route('seniman.profil.edit')->with('success', 'Profil berhasil diperbarui!');
     }
-
-
-    /* ============================================================
-                        CRUD KARYA (SENIMAN)
-    ============================================================ */
 
     public function indexKarya()
     {
@@ -188,7 +160,6 @@ private function generateAudio($text, $fileName)
 
         $data['seniman_id'] = auth()->id();
 
-        // Auto TTS
         if (!empty($data['deskripsi'])) {
             $audioFile = $this->generateAudio($data['deskripsi'], 'karya_' . time());
             if ($audioFile) $data['audio'] = $audioFile;
@@ -233,7 +204,6 @@ private function generateAudio($text, $fileName)
             $data['gambar'] = 'uploads/karya/' . $namaFile;
         }
 
-        // regenerate audio only when description changed
         if (!empty($data['deskripsi']) && $data['deskripsi'] !== $karya->deskripsi) {
             $audioFile = $this->generateAudio($data['deskripsi'], 'karya_' . $karya->id . '_' . time());
 
