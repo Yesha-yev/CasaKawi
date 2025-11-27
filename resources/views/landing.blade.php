@@ -62,15 +62,14 @@
 
 {{-- Leaflet Map --}}
 <script>
+    const lokasi = @json($lokasi);
+
     const map = L.map('map').setView([-7.9778, 112.6347], 7);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 18
     }).addTo(map);
 
-    const lokasi = {!! json_encode($lokasi ?? []) !!};
-
-    //TTS
     let activeAudios = {};
 
     function createPopup(item) {
@@ -79,48 +78,49 @@
         const audioId = "audio-" + item.id;
 
         return `
-            <b>${item.nama}</b><br>
-            ${item.asal_daerah}<br><br>
+            <b>${item.nama}</b> <small class="text-muted">(${item.type})</small><br>
+            ${item.asal_daerah ?? ''}<br><br>
             <small>${deskripsi}</small><br><br>
-
-            <button id="btn-${audioId}" class="btn btn-sm btn-primary" onclick="toggleTTS('${escapedText}', '${audioId}')"> ▶ Putar Audio</button>`;
+            <button id="btn-${audioId}" class="btn btn-sm btn-primary" onclick="toggleTTS('${escapedText}', '${audioId}')">▶ Putar Audio</button>
+        `;
     }
 
     function toggleTTS(text, audioId) {
-        if (!activeAudios[audioId]) {
-            const utter = new SpeechSynthesisUtterance(text);
-            utter.lang = "id-ID";
-            utter.rate = 1;
-            utter.pitch = 1;
-
-            activeAudios[audioId] = utter;
-
-            utter.onend = () => {
-                const btn = document.getElementById("btn-" + audioId);
-                if (btn) btn.innerText = "▶ Putar Audio";
-            };
-        }
-
-        const btn = document.getElementById("btn-" + audioId);
-
-        if (speechSynthesis.speaking) {
+        if (activeAudios[audioId]) {
             speechSynthesis.cancel();
-            btn.innerText = "▶ Putar Audio";
-        } else {
-            speechSynthesis.speak(activeAudios[audioId]);
-            btn.innerText = "⏸ Jeda";
+            activeAudios[audioId] = false;
+            document.getElementById("btn-" + audioId).innerText = "▶ Putar Audio";
+            return;
         }
+
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.lang = "id-ID";
+        utter.rate = 1;
+        utter.pitch = 1;
+
+        utter.onend = () => {
+            activeAudios[audioId] = false;
+            document.getElementById("btn-" + audioId).innerText = "▶ Putar Audio";
+        };
+
+        activeAudios[audioId] = true;
+        document.getElementById("btn-" + audioId).innerText = "⏸ Hentikan";
+
+        speechSynthesis.speak(utter);
     }
 
-    //titik lokasi
     lokasi.forEach(item => {
-        const marker = L.marker([item.latitude, item.longitude]).addTo(map);
+        L.marker([item.latitude, item.longitude])
+            .addTo(map)
+            .bindPopup(createPopup(item));
+    });
+    map.on('popupclose', function (e) {
+    speechSynthesis.cancel();
 
-        marker.bindPopup(createPopup(item));
+    const btn = e.popup._contentNode.querySelector("button[id^='btn-audio']");
+    if (btn) btn.innerText = "▶ Putar Audio";
 
-        marker.on("popupclose", () => {
-            speechSynthesis.cancel();
-        });
+    activeAudios = {};
     });
 </script>
 

@@ -9,8 +9,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('karyas', function (Blueprint $table) {
-            $table->decimal('latitude', 10, 7)->nullable()->after('gambar');
-            $table->decimal('longitude', 10, 7)->nullable()->after('latitude');
+            if (!Schema::hasColumn('karyas', 'latitude')) {
+                $table->decimal('latitude', 10, 7)->nullable()->after('gambar');
+            }
+            if (!Schema::hasColumn('karyas', 'longitude')) {
+                $table->decimal('longitude', 10, 7)->nullable()->after('latitude');
+            }
         });
     }
 
