@@ -73,16 +73,19 @@
     let activeAudios = {};
 
     function createPopup(item) {
-        const deskripsi = item.deskripsi ?? "Tidak ada deskripsi.";
-        const escapedText = deskripsi.replace(/'/g, "\\'");
-        const audioId = "audio-" + item.id;
+    const deskripsi = item.deskripsi ?? "Tidak ada deskripsi.";
+    const audioId = "audio-" + item.id;
 
-        return `
-            <b>${item.nama}</b> <small class="text-muted">(${item.type})</small><br>
-            ${item.asal_daerah ?? ''}<br><br>
-            <small>${deskripsi}</small><br><br>
-            <button id="btn-${audioId}" class="btn btn-sm btn-primary" onclick="toggleTTS('${escapedText}', '${audioId}')">▶ Putar Audio</button>
-        `;
+    return `
+        <b>${item.nama}</b> <small class="text-muted">(${item.type})</small><br>
+        ${item.asal_daerah ?? ''}<br><br>
+        <small>${deskripsi}</small><br><br>
+
+        <button id="btn-${audioId}" class="btn btn-sm btn-primary"
+            onclick='toggleTTS(${JSON.stringify(deskripsi)}, "${audioId}")'>
+            ▶ Putar Audio
+        </button>
+    `;
     }
 
     function toggleTTS(text, audioId) {
