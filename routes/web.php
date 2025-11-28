@@ -69,3 +69,7 @@ Route::get('/timeline', [TimelineController::class, 'index'])->name('timeline.in
 
 Route::get('/laporkan-budaya', [ReportController::class, 'create'])->name('reports.create');
 Route::post('/laporkan-budaya', [ReportController::class, 'store'])->name('reports.store');
+
+Route::get('/karya', [KaryaController::class, 'index'])->name('karya.index');
+Route::get('/budaya', [BudayaController::class, 'index'])->name('budaya.index');
+
