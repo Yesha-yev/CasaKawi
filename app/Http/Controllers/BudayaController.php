@@ -16,7 +16,7 @@ class BudayaController extends Controller
 
     public function index()
     {
-        $budaya = Budaya::with('seniman', 'timeline', 'lokasi')->get();
+        $budaya = Budaya::all();
         return view('budaya.index', compact('budaya'));
     }
 }
