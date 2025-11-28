@@ -21,6 +21,15 @@
           <li class="nav-item"><a class="nav-link" href="{{ route('statistik') }}">Statistik</a></li>
         @endif
 
+<li class="nav-item">
+    <a class="nav-link" href="{{ route('karya.index') }}">Karya</a>
+</li>
+
+<li class="nav-item">
+    <a class="nav-link" href="{{ route('budaya.index') }}">Budaya</a>
+</li>
+
+
         <li class="nav-item">
           @auth
             @if(auth()->user()->role === 'admin')
