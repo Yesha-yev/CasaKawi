@@ -13,12 +13,12 @@ class KaryaReviewController extends Controller
     public function index(Request $request)
     {
         //
-        $karya = Karya::with('seniman', 'kategori')
-        ->where('status', 'approved')
+        $karyas = Karya::with('seniman', 'kategori')
+        ->where('status', 'pending')
         ->latest()
         ->get();
 
-        return view('karya.index', compact('karya'));
+        return view('karya.review', compact('karyas'));
     }
 
     /**
@@ -43,8 +43,9 @@ class KaryaReviewController extends Controller
     public function show(string $id)
     {
         //
-        $karya=Karya::with('seniman','kategori')->findOrFail($id);
-        return view('karya.review',compact('karya'));
+        $karya = Karya::with('seniman', 'kategori')->findOrFail($id);
+
+        return view('karya.review', compact('karya'));
     }
 
     /**

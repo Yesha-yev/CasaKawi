@@ -28,6 +28,9 @@ Route::post('/laporan', [LaporanController::class, 'store'])->name('laporan.stor
 
 
 Route::middleware(['auth','role:admin'])->prefix('admin')->group(function () {
+    Route::get('/karya/review', [KaryaReviewController::class, 'index'])->name('admin.karya.review');
+    Route::get('/karya/review/{id}', [KaryaReviewController::class, 'show'])->name('admin.karya.review.detail');
+    Route::post('/karya/review/{id}/status', [KaryaReviewController::class, 'updateStatus'])->name('admin.karya.review.update');
 
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 
@@ -39,7 +42,7 @@ Route::middleware(['auth','role:admin'])->prefix('admin')->group(function () {
     Route::put('/seniman/{id}', [SenimanController::class, 'update'])->name('admin.seniman.update');
 
     Route::get('/laporan', [LaporanController::class, 'index'])->name('admin.laporan');
-    Route::get('/admin/statistik', [AdminController::class, 'statistik'])->name('admin.statistik');
+    Route::get('/statistik', [AdminController::class, 'statistik'])->name('admin.statistik');
     Route::post('/laporan/{id}/status', [LaporanController::class, 'updateStatus'])->name('admin.laporan.status');
     Route::delete('/laporan/{id}', [LaporanController::class, 'destroy'])->name('admin.laporan.destroy');
 
@@ -49,9 +52,6 @@ Route::middleware(['auth','role:admin'])->prefix('admin')->group(function () {
     Route::put('/budaya/{id}', [BudayaController::class, 'update'])->name('admin.budaya.update');
     Route::delete('/budaya/{id}', [BudayaController::class, 'destroy'])->name('admin.budaya.destroy');
 
-    Route::get('/karya/review', [KaryaReviewController::class, 'index'])->name('admin.karya.review');
-    Route::get('/karya/review/{id}', [KaryaReviewController::class, 'show'])->name('admin.karya.review.detail');
-    Route::post('/karya/review/{id}/status', [KaryaReviewController::class, 'updateStatus'])->name('admin.karya.review.update');
 });
 
 
