@@ -164,7 +164,7 @@ class SenimanController extends Controller
             $audioFile = $this->generateAudio($data['deskripsi'], 'karya_' . time());
             if ($audioFile) $data['audio'] = $audioFile;
         }
-
+        $data['status']='pending';
         Karya::create($data);
 
         return redirect()->route('seniman.karya.index')->with('success', 'Karya berhasil dibuat.');

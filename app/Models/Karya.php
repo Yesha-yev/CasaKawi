@@ -19,7 +19,9 @@ class Karya extends Model
         'gambar',
         'latitude',
         'longitude',
-        'audio'
+        'audio',
+        'status',
+        'keterangan',
     ];
 
     public function kategori()

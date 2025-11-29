@@ -9,5 +9,10 @@ class Budaya extends Model
 {
     //
     use HasFactory;
-    protected $fillable = ['nama','deskripsi', 'asal_daerah', 'kategori', 'gambar'];
+    protected $fillable = ['nama','deskripsi', 'asal_daerah', 'kategori', 'latitude', 'longitude', 'gambar'];
+
+    public function kategoriRelasi()
+    {
+        return $this->belongsTo(Kategori::class, 'kategori');
+    }
 }

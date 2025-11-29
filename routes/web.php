@@ -6,12 +6,12 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ArtifactController;
 use App\Http\Controllers\TimelineController;
-use App\Http\Controllers\ReportController;
 use App\Http\Controllers\KaryaController;
 use App\Http\Controllers\SenimanController;
 use App\Http\Controllers\BudayaController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\StatistikController;
+use App\Http\Controllers\KaryaReviewController;
 
 Route::get('/', [HomeController::class, 'index'])->name('landing');
 Route::get('/statistik', [StatistikController::class, 'publik'])->name('statistik');
@@ -42,6 +42,16 @@ Route::middleware(['auth','role:admin'])->prefix('admin')->group(function () {
     Route::get('/admin/statistik', [AdminController::class, 'statistik'])->name('admin.statistik');
     Route::post('/laporan/{id}/status', [LaporanController::class, 'updateStatus'])->name('admin.laporan.status');
     Route::delete('/laporan/{id}', [LaporanController::class, 'destroy'])->name('admin.laporan.destroy');
+
+    Route::get('/budaya/create', [BudayaController::class, 'create'])->name('admin.budaya.create');
+    Route::post('/budaya', [BudayaController::class, 'store'])->name('admin.budaya.store');
+    Route::get('/budaya/{id}/edit', [BudayaController::class, 'edit'])->name('admin.budaya.edit');
+    Route::put('/budaya/{id}', [BudayaController::class, 'update'])->name('admin.budaya.update');
+    Route::delete('/budaya/{id}', [BudayaController::class, 'destroy'])->name('admin.budaya.destroy');
+
+    Route::get('/karya/review', [KaryaReviewController::class, 'index'])->name('admin.karya.review');
+    Route::get('/karya/review/{id}', [KaryaReviewController::class, 'show'])->name('admin.karya.review.detail');
+    Route::post('/karya/review/{id}/status', [KaryaReviewController::class, 'updateStatus'])->name('admin.karya.review.update');
 });
 
 
@@ -70,9 +80,6 @@ Route::get('/galeri/{id}', [ArtifactController::class, 'show'])->name('gallery.s
 Route::get('/peta', [ArtifactController::class, 'map'])->name('gallery.map');
 
 Route::get('/timeline', [TimelineController::class, 'index'])->name('timeline.index');
-
-Route::get('/laporkan-budaya', [ReportController::class, 'create'])->name('reports.create');
-Route::post('/laporkan-budaya', [ReportController::class, 'store'])->name('reports.store');
 
 Route::get('/karya', [KaryaController::class, 'index'])->name('karya.index');
 Route::get('/budaya', [BudayaController::class, 'index'])->name('budaya.index');

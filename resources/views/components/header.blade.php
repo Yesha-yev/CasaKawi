@@ -34,6 +34,7 @@
           @auth
             @if(auth()->user()->role === 'admin')
               <a class="nav-link" href="{{ route('admin.laporan') }}">Laporan</a>
+              <a class="nav-link" href="{{ route('admin.karya.review') }}">Tinjau Karya</a>
             @else
               <a class="nav-link" href="{{ url('/#form-laporan') }}">Laporan</a>
             @endif

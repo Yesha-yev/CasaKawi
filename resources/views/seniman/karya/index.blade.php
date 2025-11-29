@@ -24,6 +24,7 @@
                     <th>Asal Daerah</th>
                     <th>Deskripsi</th>
                     <th>Audio</th>
+                    <th>Status</th>
                     <th width="150">Aksi</th>
                 </tr>
             </thead>
@@ -60,6 +61,22 @@
                     </td>
 
                     <td>
+                        @if($karya->status == 'pending')
+                            <span class="badge bg-warning text-dark">Pending</span>
+                        @elseif($karya->status == 'approved')
+                            <span class="badge bg-success">Diterima</span>
+                        @elseif($karya->status == 'rejected')
+                            <span class="badge bg-danger">Ditolak</span>
+                        @elseif($karya->status == 'considered')
+                            <span class="badge bg-info text-dark">Dipertimbangkan</span>
+                        @endif
+
+                        @if($karya->keterangan)
+                            <div class="small text-muted">Alasan: {{ $karya->keterangan }}</div>
+                        @endif
+                    </td>
+
+                    <td>
                         <a href="{{ route('seniman.karya.edit', $karya->id) }}"
                            class="btn btn-warning btn-sm mb-1 w-100">Edit</a>
 
@@ -70,11 +87,9 @@
                             <button class="btn btn-danger btn-sm w-100">Hapus</button>
                         </form>
                     </td>
-
                 </tr>
                 @endforeach
             </tbody>
-
         </table>
     </div>
 
