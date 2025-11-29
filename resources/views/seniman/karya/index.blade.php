@@ -3,11 +3,7 @@
 @section('content')
 <div class="container mt-4">
 
-    <h2 class="mb-3">Daftar Karya Saya</h2>
-
-    <a href="{{ route('seniman.karya.create') }}" class="btn btn-primary mb-3">
-        + Tambah Karya
-    </a>
+    <h2 class="mb-3">Daftar Karya</h2>
 
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>

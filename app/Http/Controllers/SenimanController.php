@@ -91,12 +91,19 @@ class SenimanController extends Controller
 
     public function dashboard()
     {
-        $user = auth()->user();
-        $karyas = $user->karyas()->latest()->get();
-        $jumlahKarya = $karyas->count();
+        $senimanId = auth()->id();
+        
+        $total = Karya::where('seniman_id', $senimanId)->count();
+        $approved = Karya::where('seniman_id', $senimanId)->where('status', 'approved')->count();
+        $pending = Karya::where('seniman_id', $senimanId)->where('status', 'pending')->count();
+        $rejected = Karya::where('seniman_id', $senimanId)->where('status', 'rejected')->count();
+        $considered = Karya::where('seniman_id', $senimanId)->where('status', 'considered')->count();
 
-        return view('seniman.dashboard', compact('user', 'karyas', 'jumlahKarya'));
+        return view('seniman.dashboard', compact('total', 'approved', 'pending', 'rejected', 'considered'
+        ));
     }
+
+
 
     public function editProfil()
     {
@@ -164,7 +171,6 @@ class SenimanController extends Controller
             $audioFile = $this->generateAudio($data['deskripsi'], 'karya_' . time());
             if ($audioFile) $data['audio'] = $audioFile;
         }
-        $data['status']='pending';
         Karya::create($data);
 
         return redirect()->route('seniman.karya.index')->with('success', 'Karya berhasil dibuat.');

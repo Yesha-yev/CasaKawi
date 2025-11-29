@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h3>Tambah Karya Seni</h3>
+    <h3>Tambah Karya</h3>
 
     <div class="alert alert-info">
         <strong>Catatan:</strong> Audio penjelasan karya akan <strong>dibuat otomatis</strong> berdasarkan deskripsi
