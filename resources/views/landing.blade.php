@@ -6,7 +6,7 @@
 
 <div class="card p-4 mb-4">
     <h2>Selamat datang di Casa Kawi</h2>
-    <p>Galeri Digital Budaya Jawa Timur — jelajahi peta, timeline, dan karya seniman.</p>
+    <p>Galeri Digital Budaya Jawa Timur — jelajahi peta, budaya, dan karya seniman.</p>
 </div>
 
 <div class="card p-3 mb-4">
@@ -25,6 +25,7 @@
     <h4>Laporan Karya / Budaya</h4>
     <p>Jika kamu menemukan informasi yang salah, silakan laporkan.</p>
 
+    {{-- Error --}}
     @if($errors->any())
         <div class="alert alert-danger p-2">
             <ul class="mb-0">
@@ -35,24 +36,39 @@
         </div>
     @endif
 
+    {{-- Success --}}
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    <form action="{{ route('laporan.store') }}" method="POST">
-        @csrf
+    {{-- CEK ROLE --}}
+    @php
+        $isBlocked = auth()->check() && (auth()->user()->role === 'admin' || auth()->user()->role === 'seniman');
+    @endphp
 
-        <input type="text" name="nama" class="form-control mb-2"
-               placeholder="Nama Anda" required>
+    @if(!$isBlocked)
+        {{-- FORM UNTUK PENGGUNA UMUM --}}
+        <form action="{{ route('laporan.store') }}" method="POST">
+            @csrf
 
-        <input type="email" name="email" class="form-control mb-2"
-               placeholder="Email" required>
+            <input type="text" name="nama" class="form-control mb-2"
+                placeholder="Nama Anda" required>
 
-        <textarea name="pesan" class="form-control mb-2"
-                  placeholder="Apa yang ingin Anda laporkan?" required></textarea>
+            <input type="email" name="email" class="form-control mb-2"
+                placeholder="Email" required>
 
-        <button class="btn btn-primary">Kirim Laporan</button>
-    </form>
+            <textarea name="pesan" class="form-control mb-2"
+                placeholder="Apa yang ingin Anda laporkan?" required></textarea>
+
+            <button class="btn btn-primary">Kirim Laporan</button>
+        </form>
+    @else
+        {{-- ROLE ADMIN & SENIMAN --}}
+        <div class="alert alert-info mt-3">
+            <strong>Hanya pengguna umum yang bisa mengirim laporan.</strong>
+        </div>
+    @endif
+
 </div>
 
 @endsection
@@ -73,19 +89,19 @@
     let activeAudios = {};
 
     function createPopup(item) {
-    const deskripsi = item.deskripsi ?? "Tidak ada deskripsi.";
-    const audioId = "audio-" + item.id;
+        const deskripsi = item.deskripsi ?? "Tidak ada deskripsi.";
+        const audioId = "audio-" + item.id;
 
-    return `
-        <b>${item.nama}</b> <small class="text-muted">(${item.type})</small><br>
-        ${item.asal_daerah ?? ''}<br><br>
-        <small>${deskripsi}</small><br><br>
+        return `
+            <b>${item.nama}</b> <small class="text-muted">(${item.type})</small><br>
+            ${item.asal_daerah ?? ''}<br><br>
+            <small>${deskripsi}</small><br><br>
 
-        <button id="btn-${audioId}" class="btn btn-sm btn-primary"
-            onclick='toggleTTS(${JSON.stringify(deskripsi)}, "${audioId}")'>
-            ▶ Putar Audio
-        </button>
-    `;
+            <button id="btn-${audioId}" class="btn btn-sm btn-primary"
+                onclick='toggleTTS(${JSON.stringify(deskripsi)}, "${audioId}")'>
+                ▶ Putar Audio
+            </button>
+        `;
     }
 
     function toggleTTS(text, audioId) {
@@ -98,8 +114,6 @@
 
         const utter = new SpeechSynthesisUtterance(text);
         utter.lang = "id-ID";
-        utter.rate = 1;
-        utter.pitch = 1;
 
         utter.onend = () => {
             activeAudios[audioId] = false;
@@ -117,13 +131,10 @@
             .addTo(map)
             .bindPopup(createPopup(item));
     });
-    map.on('popupclose', function (e) {
-    speechSynthesis.cancel();
 
-    const btn = e.popup._contentNode.querySelector("button[id^='btn-audio']");
-    if (btn) btn.innerText = "▶ Putar Audio";
-
-    activeAudios = {};
+    map.on('popupclose', function () {
+        speechSynthesis.cancel();
+        activeAudios = {};
     });
 </script>
 
