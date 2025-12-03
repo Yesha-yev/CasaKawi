@@ -4,7 +4,6 @@
 <div class="container">
     <h2 class="mb-4">Daftar Budaya</h2>
 
-    {{-- Tombol Tambah --}}
     @if(auth()->check() && auth()->user()->role === 'admin')
         <a href="{{ route('admin.budaya.create') }}" class="btn btn-primary mb-3">Tambah Budaya</a>
     @endif
@@ -14,7 +13,6 @@
         <div class="col-md-4 mb-4">
             <div class="card shadow-sm">
 
-                {{-- Gambar --}}
                 @if ($item->gambar)
                     <img src="{{ asset('storage/' . $item->gambar) }}" class="card-img-top" alt="gambar budaya">
                 @else
@@ -38,7 +36,6 @@
                         {{ $item->kategoriRelasi->nama_kategori ?? 'Tidak ada kategori' }}
                     </p>
 
-                    {{-- Tombol Admin --}}
                     @if(auth()->check() && auth()->user()->role === 'admin')
                         <a href="{{ route('admin.budaya.edit', $item->id) }}"
                            class="btn btn-warning btn-sm">Edit</a>
@@ -56,7 +53,6 @@
             </div>
         </div>
 
-        {{-- Modal Detail --}}
         <div class="modal fade" id="modalDetail{{ $item->id }}" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -86,20 +82,49 @@
                             <hr>
                             <h5>Lokasi Peta</h5>
                             <div id="map{{ $item->id }}" style="height: 250px;"></div>
-
+                        <button onclick="bukaNavigasi({{ $item->latitude }}, {{ $item->longitude }})"class="btn btn-success w-100 mt-3">Navigasi ke Lokasi</button>
                             <script>
                                 document.addEventListener("DOMContentLoaded", function () {
-                                    var map = L.map("map{{ $item->id }}").setView(
-                                        [{{ $item->latitude }}, {{ $item->longitude }}],
-                                        14
-                                    );
+                                var modal = document.getElementById("modalDetail{{ $item->id }}");
 
-                                    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-                                        maxZoom: 19
-                                    }).addTo(map);
+                                modal.addEventListener("shown.bs.modal", function () {
 
-                                    L.marker([{{ $item->latitude }}, {{ $item->longitude }}]).addTo(map);
+                                    if (!modal.mapInitialized) {
+
+                                        var map = L.map("map{{ $item->id }}").setView(
+                                            [{{ $item->latitude }}, {{ $item->longitude }}],
+                                            14
+                                        );
+
+                                        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                                            maxZoom: 19
+                                        }).addTo(map);
+
+                                        L.marker([{{ $item->latitude }}, {{ $item->longitude }}]).addTo(map);
+
+                                        modal.mapInitialized = true;
+                                        modal.leafletMap = map;
+                                    }
+
+                                    setTimeout(() => {
+                                        modal.leafletMap.invalidateSize();
+                                    }, 200);
+
                                 });
+                            });
+                            function bukaNavigasi(lat, lng) {
+                            if (navigator.geolocation) {
+                                navigator.geolocation.getCurrentPosition(function(pos) {
+                                    const userLat = pos.coords.latitude;
+                                    const userLng = pos.coords.longitude;
+
+                                    const url = `https://www.google.com/maps/dir/?api=1&origin=${userLat},${userLng}&destination=${lat},${lng}`;
+                                    window.open(url, "_blank");
+                                }, function() {
+                                    window.open(`https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`, "_blank");
+                                });
+                            }
+                        }
                             </script>
                         @endif
 
@@ -111,6 +136,5 @@
 
         @endforeach
     </div>
-
 </div>
 @endsection

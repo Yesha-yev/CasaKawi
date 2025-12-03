@@ -8,7 +8,6 @@
 
         @foreach ($karya as $item)
 
-            {{-- HANYA tampilkan karya dengan status APPROVED --}}
             @if ($item->status === 'approved')
             <div class="col-md-4 mb-4">
                 <div class="card shadow-sm">
@@ -55,7 +54,6 @@
     </div>
 </div>
 
-<!-- MODAL DETAIL KARYA -->
 <div class="modal fade" id="detailModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -118,7 +116,39 @@
                 new bootstrap.Modal(document.getElementById("detailModal")).show();
             });
         });
-
     });
+    $(document).ready(function () {
+
+    $(".card").css({opacity: 0, transform: "translateY(20px)"});
+
+    $(".card").each(function(i){
+        $(this).delay(150 * i).animate({
+            opacity: 1,
+            top: 0
+        }, 400);
+    });
+
+    $(".card").hover(
+        function () {
+            $(this).css({
+                transform: "translateY(-8px)",
+                boxShadow: "0 12px 25px rgba(0,0,0,0.2)"
+            });
+            $(this).find("img").css("filter", "brightness(85%)");
+        },
+        function () {
+            $(this).css({
+                transform: "translateY(0)",
+                boxShadow: "0 4px 10px rgba(0,0,0,0.1)"
+            });
+            $(this).find("img").css("filter", "brightness(100%)");
+        }
+    );
+
+    $(".card").on("click", function(e){
+        let link = $(this).find(".lihat-detail");
+        if (link.length > 0) link.click();
+    });
+});
 </script>
 @endsection

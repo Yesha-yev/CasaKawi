@@ -4,28 +4,51 @@
 
 @section('content')
 
-<div class="card p-4 mb-4">
-    <h2>Selamat datang di Casa Kawi</h2>
-    <p>Galeri Digital Budaya Jawa Timur — jelajahi peta, budaya, dan karya seniman.</p>
-</div>
+{{-- HERO SECTION --}}
+<section class="hero-home text-white d-flex align-items-center"
+    style="
+        background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+                    url('/images/bg.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 70vh;
+        border-radius: 16px;
+        margin-bottom: 25px;
+        opacity: 0;
+        transform: translateY(30px);
+        transition: 0.8s ease-out;
+    "
+>
+    <div class="container text-center">
+        <h1 class="fw-bold mb-3 display-4">Selamat Datang di Casa Kawi</h1>
+        <p class="lead mx-auto" style="max-width: 650px;">
+            Casa Kawi adalah Galeri Digital Budaya Jawa Timur yang menghadirkan peta interaktif,
+            ragam budaya, serta karya para seniman lokal.
+        </p>
 
-<div class="card p-3 mb-4">
-    <h5>Peta Persebaran Budaya</h5>
+        <a href="#map" class="btn btn-light mt-3 px-4 py-2 fw-bold">
+            Jelajahi Sekarang
+        </a>
+    </div>
+</section>
+
+<div class="card p-3 mb-4 fade-in">
+    <h5 class="fw-bold">Peta Persebaran Budaya</h5>
     <div id="map" style="height: 400px;"></div>
 </div>
 
 @if(isset($kategoriData) && $kategoriData->count() > 0)
-<div class="card p-3 mb-4">
-    <h5>Grafik Karya per Kategori</h5>
+<div class="card p-3 mb-4 fade-in">
+    <h5 class="fw-bold">Grafik Karya per Kategori</h5>
     <canvas id="kategoriChart"></canvas>
 </div>
 @endif
 
-<div class="card p-4 mb-4" id="form-laporan">
-    <h4>Laporan Karya / Budaya</h4>
+<div class="card p-4 mb-4 fade-in" id="form-laporan">
+    <h4 class="fw-bold">Laporan Karya / Budaya</h4>
     <p>Jika kamu menemukan informasi yang salah, silakan laporkan.</p>
 
-    {{-- Error --}}
     @if($errors->any())
         <div class="alert alert-danger p-2">
             <ul class="mb-0">
@@ -36,18 +59,15 @@
         </div>
     @endif
 
-    {{-- Success --}}
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    {{-- CEK ROLE --}}
     @php
         $isBlocked = auth()->check() && (auth()->user()->role === 'admin' || auth()->user()->role === 'seniman');
     @endphp
 
     @if(!$isBlocked)
-        {{-- FORM UNTUK PENGGUNA UMUM --}}
         <form action="{{ route('laporan.store') }}" method="POST">
             @csrf
 
@@ -60,10 +80,9 @@
             <textarea name="pesan" class="form-control mb-2"
                 placeholder="Apa yang ingin Anda laporkan?" required></textarea>
 
-            <button class="btn btn-primary">Kirim Laporan</button>
+            <button class="btn btn-primary px-4">Kirim Laporan</button>
         </form>
     @else
-        {{-- ROLE ADMIN & SENIMAN --}}
         <div class="alert alert-info mt-3">
             <strong>Hanya pengguna umum yang bisa mengirim laporan.</strong>
         </div>
@@ -72,6 +91,7 @@
 </div>
 
 @endsection
+
 
 
 @section('scripts')
@@ -138,6 +158,7 @@
     });
 </script>
 
+
 {{-- Chart.js --}}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -166,4 +187,51 @@
     }
 </script>
 
+
+<script>
+
+    $('a[href^="#"]').on('click', function (e) {
+        e.preventDefault();
+        let target = $($(this).attr('href'));
+        if (target.length) {
+            $('html, body').animate({
+                scrollTop: target.offset().top - 80
+            }, 700);
+        }
+    });
+
+    $(window).on('scroll', function () {
+        $('.fade-in').each(function () {
+            let top = $(this).offset().top;
+            let scrollPos = $(window).scrollTop() + $(window).height();
+
+            if (top < scrollPos - 50) {
+                $(this).addClass('visible');
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        $('.hero-home').css({ opacity: 1, transform: 'translateY(0)' });
+    });
+
+    $('body').on('mouseenter', '.btn', function () {
+        $(this).css({ filter: 'brightness(0.85)' });
+    }).on('mouseleave', '.btn', function () {
+        $(this).css({ filter: 'brightness(1)' });
+    });
+
+</script>
+<style>
+    .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.7s ease-out;
+    }
+    .fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+</style>
 @endsection

@@ -21,6 +21,22 @@
             padding-top: 1.5rem;
             padding-bottom: 2.5rem;
         }
+        .card {
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 25px rgba(0,0,0,0.18);
+            cursor: pointer;
+        }
+
+        .card-img-top {
+            height: 220px;
+            object-fit: cover;
+        }
     </style>
 </head>
 
@@ -38,6 +54,8 @@
     @endif
 
     @include('components.footer')
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
