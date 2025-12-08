@@ -42,24 +42,16 @@
                         <td>
                             <form action="{{ route('admin.laporan.status', $item->id) }}" method="POST">
                                 @csrf
-                                <select name="status" class="form-select form-select-sm
-                                    @if($item->status == 'pending') bg-warning text-dark
-                                    @elseif($item->status == 'proses') bg-info text-dark
-                                    @else bg-success text-white
+                                <select name="status" class="status-select
+                                    @if($item->status == 'pending') bg-warning
+                                    @elseif($item->status == 'proses') bg-info
+                                    @else bg-success
                                     @endif
-                                " onchange="this.className = 'form-select form-select-sm ' + this.options[this.selectedIndex].dataset.class; this.form.submit()">
+                                " onchange="this.className = 'status-select ' + this.options[this.selectedIndex].dataset.class; this.form.submit()">
 
-                                    <option value="pending" data-class="bg-warning text-dark" {{ $item->status=='pending' ? 'selected' : '' }}>
-                                        Pending
-                                    </option>
-
-                                    <option value="proses" data-class="bg-info text-dark" {{ $item->status=='proses' ? 'selected' : '' }}>
-                                        Proses
-                                    </option>
-
-                                    <option value="selesai" data-class="bg-success text-white" {{ $item->status=='selesai' ? 'selected' : '' }}>
-                                        Selesai
-                                    </option>
+                                    <option value="pending" data-class="bg-warning" {{ $item->status=='pending' ? 'selected' : '' }}>Pending</option>
+                                    <option value="proses" data-class="bg-info" {{ $item->status=='proses' ? 'selected' : '' }}>Proses</option>
+                                    <option value="selesai" data-class="bg-success" {{ $item->status=='selesai' ? 'selected' : '' }}>Selesai</option>
 
                                 </select>
                             </form>
@@ -84,5 +76,46 @@
     </div>
 
 </div>
+
+<style>
+    .card {
+        box-shadow: none;
+        transition: none;
+    }
+
+    .card:hover {
+        transform: none;
+        box-shadow: none;
+    }
+
+    .status-select {
+        border-radius: 50px;
+        padding: 4px 12px;
+        font-weight: 500;
+        text-align: center;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .status-select.bg-warning { background-color: #f0ad4e; color: #212529; }
+    .status-select.bg-info    { background-color: #5bc0de; color: #212529; }
+    .status-select.bg-success { background-color: #28a745; color: #fff; }
+
+    .status-select:hover {
+        opacity: 0.85;
+    }
+
+    .btn-danger {
+        border-radius: 50px;
+        padding: 4px 12px;
+        font-size: 0.85rem;
+        transition: 0.3s;
+    }
+
+    .btn-danger:hover {
+        background-color: #5a3f22;
+        border-color: #5a3f22;
+    }
+</style>
 
 @endsection

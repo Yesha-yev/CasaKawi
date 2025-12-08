@@ -2,18 +2,18 @@
 
 @section('content')
 <div class="container py-5">
-    <h2 class="mb-4">Daftar Karya</h2>
+    <h2 class="mb-4 text-center" style="color: #694d28;">Daftar Karya</h2>
 
-    <div class="row">
+    <div class="row g-4">
 
         @foreach ($karya as $item)
 
             @if ($item->status === 'approved')
             <div class="col-md-4 mb-4">
-                <div class="card shadow-sm">
+                <div class="card shadow-sm" style="background:#f5efe6; border-radius:16px; cursor:pointer;">
 
                     @if($item->gambar)
-                        <img src="{{ asset($item->gambar) }}" class="card-img-top" alt="gambar karya">
+                        <img src="{{ asset($item->gambar) }}" class="card-img-top rounded-top" style="height:200px; object-fit:cover;" alt="gambar karya">
                     @endif
 
                     <div class="card-body">
@@ -26,17 +26,17 @@
                             {{ Str::limit($item->deskripsi, 100) }}
 
                             <a href="#"
-                               class="text-primary lihat-detail"
-                               data-id="{{ $item->id }}"
-                               data-nama="{{ $item->nama_karya }}"
-                               data-deskripsi="{{ $item->deskripsi }}"
-                               data-gambar="{{ asset($item->gambar) }}"
-                               data-audio="{{ $item->audio ? asset($item->audio) : '' }}"
-                               data-seniman="{{ $item->seniman->name ?? '-' }}"
-                               data-tahun="{{ $item->tahun_dibuat }}"
-                               data-daerah="{{ $item->asal_daerah }}"
-                               data-kategori="{{ $item->kategori->nama_kategori ?? '-' }}">
-                                Lihat Selengkapnya
+                                class="btn btn-primary btn-sm w-100 lihat-detail mt-3"
+                                data-id="{{ $item->id }}"
+                                data-nama="{{ $item->nama_karya }}"
+                                data-deskripsi="{{ $item->deskripsi }}"
+                                data-gambar="{{ asset($item->gambar) }}"
+                                data-audio="{{ $item->audio ? asset($item->audio) : '' }}"
+                                data-seniman="{{ $item->seniman->name ?? '-' }}"
+                                data-tahun="{{ $item->tahun_dibuat }}"
+                                data-daerah="{{ $item->asal_daerah }}"
+                                data-kategori="{{ $item->kategori->nama_kategori ?? '-' }}">
+                                    Lihat Selengkapnya
                             </a>
                         </p>
 
@@ -55,33 +55,39 @@
 </div>
 
 <div class="modal fade" id="detailModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content rounded-4 shadow" style="border: 2px solid #d8cbbd; background-color: #fff8f0;">
 
-            <div class="modal-header">
+            <div class="modal-header" style="background-color: #f8f0e0; color: #694d28; border-bottom: 2px solid #d8cbbd;">
                 <h5 class="modal-title" id="modalJudul"></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
-            <div class="modal-body">
-
-                <img id="modalGambar" class="img-fluid mb-3 rounded" style="max-height: 350px; object-fit: cover;">
-
-                <p class="mb-1"><strong>Kategori:</strong> <span id="modalKategori"></span></p>
-                <p class="mb-1"><strong>Seniman:</strong> <span id="modalSeniman"></span></p>
-                <p class="mb-1"><strong>Tahun Dibuat:</strong> <span id="modalTahun"></span></p>
-                <p class="mb-3"><strong>Asal Daerah:</strong> <span id="modalDaerah"></span></p>
-
-                <p><strong>Deskripsi:</strong></p>
-                <p id="modalDeskripsi" class="mb-3"></p>
-
-                <div id="audioContainer" style="display:none;">
-                    <strong>Audio:</strong>
-                    <audio controls class="w-100 mt-2" id="modalAudio"></audio>
+            <div class="modal-body" style="color: #4b3b2a;">
+                <div class="text-center mb-3">
+                    <img id="modalGambar" class="img-fluid rounded mb-3" style="max-height: 350px; object-fit: cover; border: 1px solid #e0d7c3;">
                 </div>
 
-            </div>
+                <div class="row mb-2">
+                    <div class="col-md-6"><strong>Kategori:</strong> <span id="modalKategori"></span></div>
+                    <div class="col-md-6"><strong>Seniman:</strong> <span id="modalSeniman"></span></div>
+                </div>
 
+                <div class="row mb-2">
+                    <div class="col-md-6"><strong>Tahun Dibuat:</strong> <span id="modalTahun"></span></div>
+                    <div class="col-md-6"><strong>Asal Daerah:</strong> <span id="modalDaerah"></span></div>
+                </div>
+
+                <hr style="border-color: #d8cbbd;">
+
+                <h6 style="color:#694d28;">Deskripsi:</h6>
+                <p id="modalDeskripsi" style="text-align: justify;"></p>
+
+                <div id="audioContainer" class="mb-3" style="display:none;">
+                    <strong>Audio:</strong>
+                    <audio controls class="w-100 mt-2" id="modalAudio" style="border: 1px solid #d8cbbd; border-radius: 6px; background-color: #fdf5ec;"></audio>
+                </div>
+            </div>
         </div>
     </div>
 </div>

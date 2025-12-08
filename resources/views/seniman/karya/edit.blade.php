@@ -2,84 +2,86 @@
 
 @section('content')
 <div class="container">
-    <h3>Edit Karya Seni</h3>
+    <h3 class="mb-4 text-brown">Edit Karya Seni</h3>
 
-    <div class="alert alert-info">
+    <div class="form-wrapper p-4 rounded-4 mb-4">
+        <div class="alert alert-info rounded-3" style="background-color:#f8f0e0; color:#694d28; border:1px solid #d8cbbd;">
         Audio penjelasan karya dibuat otomatis berdasarkan deskripsi.
         Jika Anda mengubah deskripsi, audio akan diperbarui otomatis setelah menekan tombol "Update".
+        </div>
+
+        @if($karya->audio)
+        <div class="mb-3">
+            <label class="form-label text-brown">Audio Saat Ini</label>
+            <audio controls class="w-100 rounded-2">
+                <source src="{{ asset($karya->audio) }}" type="audio/mpeg">
+                Browser tidak mendukung audio.
+            </audio>
+        </div>
+        @endif
+
+        <form action="{{ route('seniman.karya.update', $karya->id) }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
+
+            <div class="mb-3">
+                <label>Nama Karya</label>
+                <input type="text" name="nama_karya" value="{{ $karya->nama_karya }}" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label>Tahun Dibuat</label>
+                <input type="number" name="tahun_dibuat" value="{{ $karya->tahun_dibuat }}" class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label>Asal Daerah</label>
+                <input type="text" name="asal_daerah" value="{{ $karya->asal_daerah }}" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label>Kategori</label>
+                <select name="kategori_id" class="form-control" required>
+                    @foreach($kategori as $k)
+                        <option value="{{ $k->id }}" {{ $karya->kategori_id == $k->id ? 'selected' : '' }}>
+                            {{ $k->nama_kategori }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label>Deskripsi</label>
+                <textarea name="deskripsi" class="form-control" rows="3" required>{{ $karya->deskripsi }}</textarea>
+            </div>
+
+            <div class="mb-3">
+                <label>Pilih Lokasi Karya</label>
+                <div id="map" style="height: 300px;"></div>
+            </div>
+
+            <input type="hidden" name="latitude" id="latitude" value="{{ $karya->latitude }}">
+            <input type="hidden" name="longitude" id="longitude" value="{{ $karya->longitude }}">
+
+            <div class="mb-3">
+                <label>Gambar Saat Ini</label><br>
+
+                @if($karya->gambar)
+                    <img id="oldImage" src="/{{ $karya->gambar }}" alt="gambar" width="180" class="mb-2">
+                @else
+                    <p><i>Tidak ada gambar</i></p>
+                @endif
+            </div>
+
+            <div class="mb-3">
+                <label>Ganti Gambar (opsional)</label>
+                <input type="file" name="gambar" class="form-control" accept="image/*" onchange="previewImage(event)">
+                <img id="preview" class="mt-2" style="width:180px; display:none;">
+            </div>
+
+            <button class="btn btn-brown mt-3">Update</button>
+        </form>
     </div>
-
-    @if($karya->audio)
-    <div class="mb-3">
-        <label>Audio Saat Ini</label>
-        <audio controls class="w-100">
-            <source src="{{ asset($karya->audio) }}" type="audio/mpeg">
-            Browser tidak mendukung audio.
-        </audio>
-    </div>
-    @endif
-
-    <form action="{{ route('seniman.karya.update', $karya->id) }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        @method('PUT')
-
-        <div class="mb-3">
-            <label>Nama Karya</label>
-            <input type="text" name="nama_karya" value="{{ $karya->nama_karya }}" class="form-control" required>
-        </div>
-
-        <div class="mb-3">
-            <label>Tahun Dibuat</label>
-            <input type="number" name="tahun_dibuat" value="{{ $karya->tahun_dibuat }}" class="form-control">
-        </div>
-
-        <div class="mb-3">
-            <label>Asal Daerah</label>
-            <input type="text" name="asal_daerah" value="{{ $karya->asal_daerah }}" class="form-control" required>
-        </div>
-
-        <div class="mb-3">
-            <label>Kategori</label>
-            <select name="kategori_id" class="form-control" required>
-                @foreach($kategori as $k)
-                    <option value="{{ $k->id }}" {{ $karya->kategori_id == $k->id ? 'selected' : '' }}>
-                        {{ $k->nama_kategori }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-
-        <div class="mb-3">
-            <label>Deskripsi</label>
-            <textarea name="deskripsi" class="form-control" rows="3" required>{{ $karya->deskripsi }}</textarea>
-        </div>
-
-        <div class="mb-3">
-            <label>Pilih Lokasi Karya</label>
-            <div id="map" style="height: 300px;"></div>
-        </div>
-
-        <input type="hidden" name="latitude" id="latitude" value="{{ $karya->latitude }}">
-        <input type="hidden" name="longitude" id="longitude" value="{{ $karya->longitude }}">
-
-        <div class="mb-3">
-            <label>Gambar Saat Ini</label><br>
-
-            @if($karya->gambar)
-                <img id="oldImage" src="/{{ $karya->gambar }}" alt="gambar" width="180" class="mb-2">
-            @else
-                <p><i>Tidak ada gambar</i></p>
-            @endif
-        </div>
-
-        <div class="mb-3">
-            <label>Ganti Gambar (opsional)</label>
-            <input type="file" name="gambar" class="form-control" accept="image/*" onchange="previewImage(event)">
-            <img id="preview" class="mt-2" style="width:180px; display:none;">
-        </div>
-
-        <button class="btn btn-primary">Update</button>
-    </form>
 </div>
 @endsection
 
@@ -116,4 +118,26 @@
         if (old) old.style.opacity = "0.3";
     }
 </script>
+
+<style>
+.text-brown { color: #694d28 !important; }
+.btn-brown { background-color: #694d28; color: #fff; border: none; }
+.btn-brown:hover { background-color: #5a3e1f; }
+
+.form-wrapper {
+    background-color: #fff8f0;
+    border: 2px solid #d8cbbd;
+    color: #4b3b2a;
+}
+
+.alert-info { background-color: #f8f0e0; color: #694d28; border:1px solid #d8cbbd; }
+
+audio { border-radius: 6px; }
+
+#preview { border-radius: 6px; }
+
+.btn-secondary { background-color: #d8cbbd; color: #4b3b2a; border:none; }
+.btn-secondary:hover { background-color: #c2b09a; }
+</style>
+
 @endsection

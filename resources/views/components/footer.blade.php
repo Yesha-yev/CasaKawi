@@ -25,6 +25,25 @@
         color: #444;
     }
 
+    footer.bg-light {
+        background: #efe7db !important;
+        color: #4b3a24 !important;
+        border-top: 2px solid #b89b72 !important;
+    }
+
+    footer a {
+        color: #4b3a24 !important;
+        transition: 0.25s;
+    }
+
+    footer a:hover {
+        color: #6e4f2f !important;
+    }
+
+    .footer-icon {
+        color: #6e4f2f !important;
+    }
+
     @keyframes bounce {
         0%, 100% {
             transform: translateY(0);

@@ -2,63 +2,63 @@
 
 @section('content')
 <div class="container">
-    <h3>Tambah Karya</h3>
+    <h3 class="mb-4 text-brown">Tambah Karya</h3>
 
-    <div class="alert alert-info">
-        <strong>Catatan:</strong> Audio penjelasan karya akan <strong>dibuat otomatis</strong> berdasarkan deskripsi
-        menggunakan fitur Text-to-Speech. Pastikan deskripsi ditulis dengan jelas.
+    <div class="form-wrapper p-4 rounded-4 mb-4">
+        <div class="alert alert-info rounded-3">
+            <strong>Catatan:</strong> Audio penjelasan karya akan <strong>dibuat otomatis</strong> berdasarkan deskripsi
+            menggunakan fitur Text-to-Speech. Pastikan deskripsi ditulis dengan jelas.
+        </div>
+
+        <form action="{{ route('seniman.karya.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+
+            <div class="mb-3">
+                <label class="form-label text-brown">Nama Karya</label>
+                <input type="text" name="nama_karya" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label text-brown">Tahun Dibuat</label>
+                <input type="number" name="tahun_dibuat" class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label text-brown">Asal Daerah</label>
+                <input type="text" name="asal_daerah" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label text-brown">Kategori</label>
+                <select name="kategori_id" class="form-control" required>
+                    @foreach($kategoris as $kategori)
+                        <option value="{{ $kategori->id }}">{{ $kategori->nama_kategori }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label text-brown">Deskripsi <span class="text-danger">*</span></label>
+                <textarea name="deskripsi" class="form-control" rows="4" required placeholder="Tulis deskripsi karya..."></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label text-brown">Pilih Lokasi Karya</label>
+                <div id="map" class="rounded-3" style="height: 300px;"></div>
+            </div>
+
+            <input type="hidden" name="latitude" id="latitude">
+            <input type="hidden" name="longitude" id="longitude">
+
+            <div class="mb-3">
+                <label class="form-label text-brown">Upload Gambar</label>
+                <input type="file" name="gambar" class="form-control" accept="image/*" onchange="previewImage(event)">
+                <img id="preview" class="mt-2 rounded-2" style="width:180px; display:none;">
+            </div>
+
+            <button class="btn btn-brown">Simpan</button>
+        </form>
     </div>
-
-    <form action="{{ route('seniman.karya.store') }}" method="POST" enctype="multipart/form-data">
-        @csrf
-
-        <div class="mb-3">
-            <label>Nama Karya</label>
-            <input type="text" name="nama_karya" class="form-control" required>
-        </div>
-
-        <div class="mb-3">
-            <label>Tahun Dibuat</label>
-            <input type="number" name="tahun_dibuat" class="form-control">
-        </div>
-
-        <div class="mb-3">
-            <label>Asal Daerah</label>
-            <input type="text" name="asal_daerah" class="form-control" required>
-        </div>
-
-        <div class="mb-3">
-            <label>Kategori</label>
-            <select name="kategori_id" class="form-control" required>
-                @foreach($kategoris as $kategori)
-                    <option value="{{ $kategori->id }}">{{ $kategori->nama_kategori }}</option>
-                @endforeach
-            </select>
-        </div>
-
-        <div class="mb-3">
-            <label>Deskripsi <span class="text-danger">*</span></label>
-            {{-- 🔊 Wajib diisi agar audio bisa digenerate --}}
-            <textarea name="deskripsi" class="form-control" rows="4" required placeholder="Tulis deskripsi karya..."></textarea>
-        </div>
-
-        <!-- MAP -->
-        <div class="mb-3">
-            <label>Pilih Lokasi Karya</label>
-            <div id="map" style="height: 300px;"></div>
-        </div>
-
-        <input type="hidden" name="latitude" id="latitude">
-        <input type="hidden" name="longitude" id="longitude">
-
-        <div class="mb-3">
-            <label>Upload Gambar</label>
-            <input type="file" name="gambar" class="form-control" accept="image/*" onchange="previewImage(event)">
-            <img id="preview" class="mt-2" style="width:180px; display:none;">
-        </div>
-
-        <button class="btn btn-primary">Simpan</button>
-    </form>
 </div>
 @endsection
 
@@ -90,4 +90,21 @@
         img.style.display = "block";
     }
 </script>
+
+<style>
+.text-brown { color: #694d28 !important; }
+.btn-brown { background-color: #694d28; color: #fff; border: none; }
+.btn-brown:hover { background-color: #5a3e1f; }
+
+.form-wrapper {
+    background-color: #fff8f0;
+    border: 2px solid #d8cbbd;
+    color: #4b3b2a;
+}
+
+.alert-info { background-color: #f8f0e0; color: #694d28; border:1px solid #d8cbbd; }
+
+.form-control, .form-select, textarea, #map, #preview { border-radius: 6px; }
+</style>
+
 @endsection

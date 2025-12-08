@@ -3,15 +3,15 @@
 @section('content')
 <div class="container mt-4">
 
-    <h2 class="mb-3">Daftar Karya</h2>
+    <h2 class="mb-3 text-brown">Daftar Karya Saya</h2>
 
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
     <div class="table-responsive">
-        <table class="table table-bordered align-middle">
-            <thead class="table-light">
+        <table class="table align-middle rounded-4">
+            <thead>
                 <tr>
                     <th width="120">Gambar</th>
                     <th>Nama Karya</th>
@@ -41,9 +41,7 @@
                     <td>{{ $karya->tahun_dibuat ?? '-' }}</td>
                     <td>{{ $karya->asal_daerah }}</td>
 
-                    <td style="max-width: 250px;">
-                        {{ $karya->deskripsi ?? '-' }}
-                    </td>
+                    <td style="max-width: 250px;">{{ $karya->deskripsi ?? '-' }}</td>
 
                     <td>
                         @if($karya->audio)
@@ -60,7 +58,7 @@
                         @if($karya->status == 'pending')
                             <span class="badge bg-warning text-dark">Pending</span>
                         @elseif($karya->status == 'approved')
-                            <span class="badge bg-success">Diterima</span>
+                            <span class="badge btn-brown">Diterima</span>
                         @elseif($karya->status == 'rejected')
                             <span class="badge bg-danger">Ditolak</span>
                         @elseif($karya->status == 'considered')
@@ -90,4 +88,20 @@
     </div>
 
 </div>
+
+<style>
+.text-brown { color: #694d28 !important; }
+.btn-brown { background-color: #694d28; color: #fff; border: none; }
+.btn-brown:hover { background-color: #5a3e1f; }
+
+.table { border-collapse: separate !important; border-spacing: 0; border-radius: 12px; overflow: hidden; }
+.table thead th:first-child { border-top-left-radius: 12px; }
+.table thead th:last-child { border-top-right-radius: 12px; }
+.table tbody tr:last-child td:first-child { border-bottom-left-radius: 12px; }
+.table tbody tr:last-child td:last-child { border-bottom-right-radius: 12px; }
+
+.table tbody tr:hover { background-color: #f0e4d1; transition: 0.3s; }
+
+.badge.btn-brown { background-color: #694d28; color: #fff; }
+</style>
 @endsection
