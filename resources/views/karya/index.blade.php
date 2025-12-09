@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container py-5">
-    <h2 class="mb-4 text-center" style="color: #694d28;">Daftar Karya</h2>
+    <h2 class="mb-4 text-center" style="color: #c9c1b6;">Daftar Karya</h2>
 
     <div class="row g-4">
 
@@ -10,47 +10,43 @@
 
             @if ($item->status === 'approved')
             <div class="col-md-4 mb-4">
-                <div class="card shadow-sm" style="background:#f5efe6; border-radius:16px; cursor:pointer;">
+                <div class="card h-100 shadow-sm"
+                     style="background:#f5efe6; border-radius:16px; cursor:pointer;">
 
                     @if($item->gambar)
-                        <img src="{{ asset($item->gambar) }}" class="card-img-top rounded-top" style="height:200px; object-fit:cover;" alt="gambar karya">
+                        <img src="{{ asset($item->gambar) }}"
+                             class="card-img-top rounded-top"
+                             style="height:200px; object-fit:cover;"
+                             alt="gambar karya">
                     @endif
 
-                    <div class="card-body">
+                    <div class="card-body d-flex flex-column">
+
                         <h5 class="card-title">{{ $item->nama_karya }}</h5>
 
-                        <p class="mb-1"><strong>Kategori:</strong> {{ $item->kategori->nama_kategori ?? '-' }}</p>
+                        <p class="small mb-1"><strong>Kategori:</strong>{{ $item->kategori->nama_kategori ?? '-' }}</p>
 
-                        <p class="mb-1"><strong>Deskripsi:</strong></p>
-                        <p class="card-text">
-                            {{ Str::limit($item->deskripsi, 100) }}
+                        <p class="small text-muted mb-2 flex-grow-1"><strong>Seniman:</strong> {{ $item->seniman->name ?? '-' }}</p>{{ Str::limit($item->deskripsi, 80) }}</p>
 
-                            <a href="#"
-                                class="btn btn-primary btn-sm w-100 lihat-detail mt-3"
-                                data-id="{{ $item->id }}"
-                                data-nama="{{ $item->nama_karya }}"
-                                data-deskripsi="{{ $item->deskripsi }}"
-                                data-gambar="{{ asset($item->gambar) }}"
-                                data-audio="{{ $item->audio ? asset($item->audio) : '' }}"
-                                data-seniman="{{ $item->seniman->name ?? '-' }}"
-                                data-tahun="{{ $item->tahun_dibuat }}"
-                                data-daerah="{{ $item->asal_daerah }}"
-                                data-kategori="{{ $item->kategori->nama_kategori ?? '-' }}">
-                                    Lihat Selengkapnya
-                            </a>
-                        </p>
-
-                        <p class="mb-1"><strong>Seniman:</strong> {{ $item->seniman->name ?? '-' }}</p>
-                        <p class="mb-1"><strong>Tahun Dibuat:</strong> {{ $item->tahun_dibuat ?? '-' }}</p>
-                        <p class="mb-1"><strong>Asal Daerah:</strong> {{ $item->asal_daerah ?? '-' }}</p>
+                        <a href="#"
+                           class="btn btn-primary btn-sm w-100 mt-auto lihat-detail"
+                           data-id="{{ $item->id }}"
+                           data-nama="{{ $item->nama_karya }}"
+                           data-deskripsi="{{ $item->deskripsi }}"
+                           data-gambar="{{ asset($item->gambar) }}"
+                           data-audio="{{ $item->audio ? asset($item->audio) : '' }}"
+                           data-seniman="{{ $item->seniman->name ?? '-' }}"
+                           data-tahun="{{ $item->tahun_dibuat }}"
+                           data-daerah="{{ $item->asal_daerah }}"
+                           data-kategori="{{ $item->kategori->nama_kategori ?? '-' }}">
+                            Lihat Selengkapnya
+                        </a>
 
                     </div>
                 </div>
             </div>
             @endif
-
         @endforeach
-
     </div>
 </div>
 
@@ -97,64 +93,65 @@
 
 @section('scripts')
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-
-        document.querySelectorAll(".lihat-detail").forEach(btn => {
-            btn.addEventListener("click", function(e) {
-                e.preventDefault();
-
-                document.getElementById("modalJudul").innerText   = this.dataset.nama;
-                document.getElementById("modalDeskripsi").innerText = this.dataset.deskripsi;
-                document.getElementById("modalKategori").innerText  = this.dataset.kategori;
-                document.getElementById("modalSeniman").innerText   = this.dataset.seniman;
-                document.getElementById("modalTahun").innerText     = this.dataset.tahun;
-                document.getElementById("modalDaerah").innerText    = this.dataset.daerah;
-
-                document.getElementById("modalGambar").src = this.dataset.gambar;
-
-                if (this.dataset.audio !== "") {
-                    document.getElementById("audioContainer").style.display = "block";
-                    document.getElementById("modalAudio").src = this.dataset.audio;
-                } else {
-                    document.getElementById("audioContainer").style.display = "none";
-                }
-
-                new bootstrap.Modal(document.getElementById("detailModal")).show();
-            });
-        });
-    });
     $(document).ready(function () {
 
-    $(".card").css({opacity: 0, transform: "translateY(20px)"});
-
-    $(".card").each(function(i){
-        $(this).delay(150 * i).animate({
-            opacity: 1,
-            top: 0
-        }, 400);
+    $(".card").css({
+        opacity: 0,
     });
 
-    $(".card").hover(
-        function () {
-            $(this).css({
-                transform: "translateY(-8px)",
-                boxShadow: "0 12px 25px rgba(0,0,0,0.2)"
-            });
-            $(this).find("img").css("filter", "brightness(85%)");
-        },
-        function () {
-            $(this).css({
-                transform: "translateY(0)",
-                boxShadow: "0 4px 10px rgba(0,0,0,0.1)"
-            });
-            $(this).find("img").css("filter", "brightness(100%)");
+    $(".card").each(function (i) {
+        $(this)
+            .delay(i * 120)
+            .animate(
+                { opacity: 1 },400);
+    });
+
+    $(".lihat-detail").on("click", function (e) {
+        e.preventDefault();
+
+        $("#modalJudul").text($(this).data("nama"));
+        $("#modalDeskripsi").text($(this).data("deskripsi"));
+        $("#modalKategori").text($(this).data("kategori"));
+        $("#modalSeniman").text($(this).data("seniman"));
+        $("#modalTahun").text($(this).data("tahun"));
+        $("#modalDaerah").text($(this).data("daerah"));
+        $("#modalGambar").attr("src", $(this).data("gambar"));
+
+        if ($(this).data("audio")) {
+            $("#audioContainer").show();
+            $("#modalAudio").attr("src", $(this).data("audio"));
+        } else {
+            $("#audioContainer").hide();
         }
-    );
 
-    $(".card").on("click", function(e){
-        let link = $(this).find(".lihat-detail");
-        if (link.length > 0) link.click();
+        new bootstrap.Modal(document.getElementById("detailModal")).show();
     });
-});
+
+    $(".card").on("click", function (e) {
+        if (!$(e.target).hasClass("lihat-detail")) {
+            $(this).find(".lihat-detail").trigger("click");
+        }
+    });
+    });
 </script>
+<style>
+.card {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+    z-index: 5;
+}
+.card img {
+    transition: filter 0.3s ease;
+}
+.card:hover img {
+    filter: brightness(85%);
+}
+
+</style>
 @endsection

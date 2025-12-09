@@ -8,7 +8,7 @@
         <div class="col-lg-5">
 
             <div class="card shadow-sm border-0">
-                <div class="card-header bg-white border-0">
+                <div class="card-header border-0">
                     <h4 class="fw-bold mb-0">Login</h4>
                 </div>
 

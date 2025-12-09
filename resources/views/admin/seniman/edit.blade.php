@@ -45,7 +45,14 @@
                                 <option value="0" {{ $user->status == 0 ? 'selected' : '' }}>Tidak Aktif</option>
                             </select>
                         </div>
-
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h3 class="fw-bold text-light">Edit Seniman</h3>
+                                                
+                            <a href="{{ route('admin.seniman.index') }}" class="btn btn-brown px-4 py-2">
+                                Kembali
+                            </a>
+                        </div>
+                        
                         <button type="submit" class="btn btn-primary w-100">Simpan Perubahan</button>
 
                     </form>

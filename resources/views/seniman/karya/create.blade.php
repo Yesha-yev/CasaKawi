@@ -92,7 +92,7 @@
 </script>
 
 <style>
-.text-brown { color: #694d28 !important; }
+.text-brown { color: #c9c1b6 !important; }
 .btn-brown { background-color: #694d28; color: #fff; border: none; }
 .btn-brown:hover { background-color: #5a3e1f; }
 

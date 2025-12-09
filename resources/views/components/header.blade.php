@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm nav-custom">
+<nav class="navbar navbar-expand-lg shadow-sm nav-custom">
     <div class="container">
 
         <a class="navbar-brand fw-bold d-flex align-items-center" href="{{ route('landing') }}">
@@ -21,14 +21,6 @@
                     <li class="nav-item"><a class="nav-link" href="{{ route('statistik') }}">Statistik</a></li>
                 @endif
 
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('karya.index') }}">Karya</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('budaya.index') }}">Budaya</a>
-                </li>
-
                 @auth
                     @if(auth()->user()->role === 'admin')
                         <li class="nav-item">
@@ -47,6 +39,14 @@
                         <a class="nav-link" href="{{ url('/#form-laporan') }}">Laporan</a>
                     </li>
                 @endauth
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('karya.index') }}">Karya</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('budaya.index') }}">Budaya</a>
+                </li>
+
 
             </ul>
 
@@ -64,12 +64,10 @@
 
                         <ul class="dropdown-menu dropdown-menu-end">
 
-                        {{-- ADMIN --}}
                         @if(auth()->user()->role === 'admin')
                             <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}">Dashboard Admin</a></li>
                             <li><a class="dropdown-item" href="{{ route('admin.seniman.index') }}">Kelola Seniman</a></li>
 
-                        {{-- SENIMAN --}}
                         @elseif(auth()->user()->role === 'seniman')
                             <li><a class="dropdown-item" href="{{ route('seniman.dashboard') }}">Dashboard Seniman</a></li>
                             <li><a class="dropdown-item" href="{{ route('seniman.karya.index') }}">Karya Saya</a></li>
@@ -93,24 +91,37 @@
 
 <style>
 .navbar {
-    background: #efe7db !important;
+    background-image: url('/images/batik.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
     border-bottom: 2px solid #b89b72;
 }
-
+.navbar::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(56, 41, 17, 0.75);
+    z-index: 0;
+}
 .nav-link {
-    color: #4b3a24 !important;
+    color: #ffe8c9 !important;
 }
 
 .nav-link:hover {
-    color: #6e4f2f !important;
+    color: #928171 !important;
 }
-
+.navbar .container {
+    position: relative;
+    z-index: 1;
+}
 .navbar-brand .brand-text {
-    color: #4b3a24;
+    color: #ceba9f;
 }
 
 .navbar-brand:hover .brand-text {
-    color: #6e4f2f;
+    color: #4e4134;
 }
 
 .dropdown-menu {
@@ -121,5 +132,25 @@
 .dropdown-item:hover {
     background: #e3d3c5;
 }
-
+.navbar-toggler {
+    border-color: #998c6e !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 6px;
+}
+.navbar-light .navbar-toggler-icon {
+    background-image: none;
+}
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba(255,232,201,1)' stroke-width='2.5' stroke-linecap='round' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+.card {
+    background: rgba(255, 255, 255, 0.15) !important; /* transparan */
+    backdrop-filter: blur(6px); /* efek kaca (opsional tapi cakep) */
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    border-radius: 16px;
+    color: #f3e5b6;
+}
 </style>

@@ -42,23 +42,7 @@ class AdminController extends Controller
         ));
     }
 
-    public function statistik()
-    {
-        $kategoriData = Kategori::withCount('karyas')->get();
-        $budayaByDaerah = Budaya::select('asal_daerah', DB::raw('COUNT(*) as total'))
-            ->groupBy('asal_daerah')
-            ->get();
-
-        $laporanStats = Laporan::select('status', DB::raw('COUNT(*) as total'))
-            ->groupBy('status')
-            ->pluck('total','status')->toArray();
-
-            return view('admin.statistik.index', compact(
-                'kategoriData',
-                'budayaByDaerah',
-                'laporanStats'
-            ));
-    }
+ 
     /**
      * Show the form for creating a new resource.
      */

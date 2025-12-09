@@ -14,11 +14,10 @@ class KaryaReviewController extends Controller
     {
         //
         $karyas = Karya::with('seniman', 'kategori')
-        ->where('status', '!=', 'rejected')
         ->latest()
         ->get();
 
-        return view('karya.review', compact('karyas'));
+        return view('karya.review', ['mode'=>'list','karyas'=>$karyas]);
     }
 
     /**
@@ -45,7 +44,7 @@ class KaryaReviewController extends Controller
         //
         $karya = Karya::with('seniman', 'kategori')->findOrFail($id);
 
-        return view('karya.review', compact('karya'));
+        return view('karya.review', ['mode'=>'detail','karya'=>$karya]);
     }
 
     /**

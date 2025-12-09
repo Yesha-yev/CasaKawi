@@ -3,7 +3,7 @@
 @section('content')
 <div class="container py-4">
 
-    <h2 class="mb-4 text-center fw-bold">📊 Statistik Publik</h2>
+    <h2 class="mb-4 text-center fw-bold">Statistik Publik</h2>
 
     <div class="card mb-4 shadow-sm">
         <div class="card-body">
@@ -28,14 +28,15 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-    // Data dari controller
+    Chart.defaults.color = '#F7F3EB';
+    Chart.defaults.borderColor = 'rgba(255,255,255,0.15)';
+
     const kategoriLabels = @json($kategoriData->pluck('nama_kategori'));
     const kategoriCounts = @json($kategoriData->pluck('karyas_count')).map(Number);
 
     const lokasiLabels = @json($lokasiAgregat->pluck('asal_daerah'));
     const lokasiCounts = @json($lokasiAgregat->pluck('total')).map(Number);
 
-    // Warna random aman Chart.js
     function randomColors(len) {
         return Array.from({ length: len }, () => {
             const r = Math.floor(Math.random() * 255);
@@ -45,7 +46,6 @@
         });
     }
 
-    // Bar Chart
     new Chart(document.getElementById('kategoriChart'), {
         type: 'line',
         data: {
@@ -53,11 +53,11 @@
             datasets: [{
                 label: 'Jumlah Karya',
                 data: kategoriCounts,
-                borderColor: 'purple',   // warna garis
-                backgroundColor: 'rgba(128, 0, 128, 0.3)', // area fill opsional
+                borderColor: 'purple',
+                backgroundColor: 'rgba(128, 0, 128, 0.3)',
                 borderWidth: 2,
-                tension: 0.4, // membuat garis smooth (0 = kaku)
-                fill: true    // jika ingin ada area warna di bawah garis
+                tension: 0.4,
+                fill: true
             }]
         },
         options: {
@@ -78,7 +78,6 @@
         }
     });
 
-    // Pie Chart
     new Chart(document.getElementById('lokasiChart'), {
         type: 'pie',
         data: {

@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
     @yield('head')
+    @yield('styles')
 
     <style>
     :root {
@@ -22,16 +23,28 @@
     }
 
     body {
-        background-color: var(--brown-light);
+        background-image: url('/images/bgumum.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+
         font-family: "Poppins", sans-serif;
         color: var(--text-light);
+        min-height: 100vh;
+    }
+    body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(60, 38, 20, 0.65); /* coklat gelap transparan */
+    z-index: -1;
     }
 
     .content-wrap {
         padding-top: 1.5rem;
         padding-bottom: 2.5rem;
     }
-
     .card {
         background: #efe7db !important;
         border: none;

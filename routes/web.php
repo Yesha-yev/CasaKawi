@@ -42,7 +42,6 @@ Route::middleware(['auth','role:admin'])->prefix('admin')->group(function () {
     Route::put('/seniman/{id}', [SenimanController::class, 'update'])->name('admin.seniman.update');
 
     Route::get('/laporan', [LaporanController::class, 'index'])->name('admin.laporan');
-    Route::get('/statistik', [AdminController::class, 'statistik'])->name('admin.statistik');
     Route::post('/laporan/{id}/status', [LaporanController::class, 'updateStatus'])->name('admin.laporan.status');
     Route::delete('/laporan/{id}', [LaporanController::class, 'destroy'])->name('admin.laporan.destroy');
 

@@ -179,10 +179,31 @@
                 }]
             },
             options: {
-                scales: {
-                    y: { beginAtZero: true }
+            responsive: true,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: "#ffffff" 
+                    }
+                },
+                tooltip: {
+                    titleColor: "#ffffff",
+                    bodyColor: "#ffffff",
+                    footerColor: "#ffffff"
+                }
+            },
+            scales: {
+                x: {
+                    ticks: { color: "#ffffff" },
+                    grid: { color: "rgba(255, 255, 255, 0.2)" }
+                },
+                y: {
+                    beginAtZero: true,
+                    ticks: { color: "#ffffff" },
+                    grid: { color: "rgba(255, 255, 255, 0.2)" }
                 }
             }
+        }
         });
     }
 </script>
