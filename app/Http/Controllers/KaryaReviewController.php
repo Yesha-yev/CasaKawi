@@ -14,7 +14,7 @@ class KaryaReviewController extends Controller
     {
         //
         $karyas = Karya::with('seniman', 'kategori')
-        ->where('status', 'pending')
+        ->where('status', '!=', 'rejected')
         ->latest()
         ->get();
 
@@ -72,7 +72,7 @@ class KaryaReviewController extends Controller
         $karya->keterangan=$request->keterangan;
         $karya->save();
 
-        return redirect()->route('admin.karya.review.detail',$id)->with('success','Status karya berhasil diperbarui.');
+        return redirect()->route('admin.karya.review')->with('success','Status karya berhasil diperbarui.');
     }
 
     /**

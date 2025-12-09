@@ -35,8 +35,7 @@
                         <td>{{ $k->kategori->nama_kategori }}</td>
 
                         <td>
-                            <a href="{{ route('admin.karya.review.detail', $k->id) }}"
-                            class="btn btn-brown btn-sm">Tinjau</a>
+                            <a href="{{ route('admin.karya.review.detail', $k->id) }}"class="btn btn-brown btn-sm">Tinjau</a>
                         </td>
                     </tr>
                     @endforeach
@@ -46,7 +45,7 @@
 
     {{-- HALAMAN DETAIL KARYA --}}
     @elseif(isset($karya))
-        <a href="{{ route('admin.karya.review') }}" class="btn btn-light mb-3">← Kembali</a>
+        <a href="{{ route('admin.karya.review') }}" class="btn btn-light mb-3">Kembali</a>
 
         <div class="row g-4">
             <div class="col-md-6">

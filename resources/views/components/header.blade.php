@@ -15,7 +15,7 @@
 
                 <li class="nav-item"><a class="nav-link" href="{{ route('landing') }}">Beranda</a></li>
 
-                <li class="nav-item"><a class="nav-link" href="{{ url('/#peta') }}">Peta</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url('/#map') }}">Peta</a></li>
 
                 @if (Route::has('statistik'))
                     <li class="nav-item"><a class="nav-link" href="{{ route('statistik') }}">Statistik</a></li>
