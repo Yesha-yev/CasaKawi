@@ -7,9 +7,7 @@
 
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h3 class="fw-bold text-light">Kelola Seniman</h3>
-        <a href="{{ route('admin.seniman.create') }}" class="btn btn-brown px-4 py-2">
-            Tambah Seniman
-        </a>
+        <a href="{{ route('admin.seniman.create') }}" class="btn btn-brown px-4 py-2">Tambah Seniman</a>
     </div>
 
     <div class="row g-4">
@@ -18,9 +16,11 @@
         <div class="col-md-4">
             <div class="card seniman-card shadow-sm h-100">
 
-                <div class="card-body d-flex flex-column">
-                    <h5 class="fw-bold text-brown-dark">{{ $s->name }}</h5>
-                    <p class="text-muted mb-1 teks-email">{{ $s->email }}</p>
+                <div class="card-body d-flex flex-column text-center">
+                    <div class="info-wrap top-section">
+                        <h5 class="fw-bold text-brown-dark">{{ $s->name }}</h5>
+                        <p class="text-muted mb-1 teks-email">{{ $s->email }}</p>
+                    </div>
                     <span class="badge seniman-status {{ $s->status ? 'bg-success' : 'bg-secondary' }}">
                         {{ $s->status ? 'Aktif' : 'Tidak Aktif' }}
                     </span>
@@ -62,13 +62,19 @@
     color: var(--brown-dark);
 }
 .seniman-status {
-    margin-top: 6px;
+    margin-top: 8px;
     font-size: 0.85rem;
     padding: 6px 12px;
     border-radius: 8px;
+    width: fit-content;
     min-height: 32px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.top-section {
+    min-height: 120px;
     display: flex;
-    align-items: center;
+    flex-direction: column;
     justify-content: center;
 }
 .card-body {
@@ -81,6 +87,12 @@
     border-radius: 10px;
     font-weight: 600;
     color: #fff;
+}
+.info-wrap {
+    min-height: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 .teks-email {
     color: #3a342e !important;
