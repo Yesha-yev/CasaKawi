@@ -7,7 +7,6 @@
 
     <h2 class="mb-4 text-center fw-bold">📊 Dashboard Admin</h2>
 
-    {{-- Statistik Angka --}}
     <div class="row mb-4">
 
         <div class="col-md-4 mb-3">
@@ -57,7 +56,6 @@
 
     </div>
 
-    {{-- Grafik Karya per Kategori --}}
     <div class="card mb-4 shadow-sm">
         <div class="card-body">
             <h4 class="text-center mb-3">Grafik Karya per Kategori</h4>
@@ -65,15 +63,12 @@
         </div>
     </div>
 
-    {{-- Grafik Budaya per Daerah --}}
     <div class="card mb-4 shadow-sm">
         <div class="card-body">
             <h4 class="text-center mb-3">Grafik Budaya per Daerah</h4>
             <canvas id="chartBudaya" style="height: 300px"></canvas>
         </div>
     </div>
-
-    {{-- Link Navigasi --}}
     <div class="text-center mt-4">
         <a href="{{ route('admin.seniman.index') }}" class="btn btn-primary me-2">Kelola Seniman</a>
         <a href="{{ route('admin.laporan') }}" class="btn btn-warning">Lihat Laporan</a>
@@ -108,7 +103,7 @@
         plugins: {
             legend: {
                 labels: {
-                    color: "#ffffff" // warna teks legend
+                    color: "#ffffff"
                 }
             },
             tooltip: {
@@ -157,7 +152,7 @@
         plugins: {
             legend: {
                 labels: {
-                    color: "#ffffff" 
+                    color: "#ffffff"
                 }
             },
             tooltip: {

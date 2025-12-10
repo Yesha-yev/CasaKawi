@@ -139,35 +139,94 @@
 </script>
 
 <style>
-.text-brown { color: #c9c1b6 !important; }
-.btn-brown { background-color: #694d28; color: #fff; border: none; }
-.btn-brown:hover { background-color: #5a3e1f; color: #fff; }
+.text-brown {
+    color: #c9c1b6 !important;
+}
+.btn-brown {
+    background-color: #694d28;
+    color: #fff;
+    border: none;
+}
+.btn-brown:hover {
+    background-color: #5a3e1f;
+    color: #fff;
+}
 
-.table-brown { background-color: #d8cbbd; }
-.table-brown th { border: none; }
+.table-brown {
+    background-color: #d8cbbd;
+}
+.table-brown th {
+    border: none;
+}
 
-.table-striped>tbody>tr:nth-of-type(odd) { background-color: #f8f0e0; }
-.table-hover>tbody>tr:hover { background-color: #f0e4d1; }
+.table-striped>tbody>tr:nth-of-type(odd) {
+    background-color: #f8f0e0;
+}
+.table-hover>tbody>tr:hover {
+    background-color: #f0e4d1;
+}
 
-.img-thumbnail { border-radius: 8px; }
+.img-thumbnail {
+    border-radius: 8px;
+}
 
-.table { border-collapse: separate !important; border-spacing: 0; border-radius: 12px; overflow: hidden; }
-.table thead th:first-child { border-top-left-radius: 12px; }
-.table thead th:last-child { border-top-right-radius: 12px; }
-.table tbody tr:last-child td:first-child { border-bottom-left-radius: 12px; }
-.table tbody tr:last-child td:last-child { border-bottom-right-radius: 12px; }
-.karya-card { border-radius: 12px; overflow: hidden; }
-.card-img-top-wrapper { overflow: hidden; }
-.card-img-top { transition: transform .3s ease; }
-.card-img-top:hover { transform: scale(1.05); }
+.table {
+    border-collapse: separate !important;
+    border-spacing: 0;
+    border-radius: 12px;
+    overflow: hidden;
+}
+.table thead th:first-child {
+    border-top-left-radius: 12px;
+}
+.table thead th:last-child {
+    border-top-right-radius: 12px;
+}
+.table tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 12px;
+}
+.table tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 12px;
+}
+.karya-card {
+    border-radius: 12px;
+    overflow: hidden;
+}
+.card-img-top-wrapper {
+    overflow: hidden;
+}
+.card-img-top {
+    transition: transform .3s ease;
+}
+.card-img-top:hover {
+    transform: scale(1.05);
+}
 
-.karya-card .card-footer { background: #fff; border-top: none; }
-.btn-brown { background-color: #694d28; color: #fff; border: none; }
-.btn-brown:hover { background-color: #5a3e1f; color: #fff; }
+.karya-card .card-footer {
+    background: #fff;
+    border-top: none;
+}
+.btn-brown {
+    background-color: #694d28;
+    color: #fff;
+    border: none;
+}
+.btn-brown:hover {
+    background-color: #5a3e1f;
+    color: #fff;
+}
 
-.text-truncate-desc { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.text-truncate-desc {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
 
-.card-img-top-placeholder { background: #f4f1ed; color: #8a7f72; }
+.card-img-top-placeholder {
+    background: #f4f1ed;
+    color: #8a7f72;
+}
 .karyb{
     background-color: #9e9075;
 }
@@ -236,5 +295,3 @@
     color: #ffffff;
 
 </style>
-
-@endsection

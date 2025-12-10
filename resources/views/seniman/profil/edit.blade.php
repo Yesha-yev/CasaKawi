@@ -40,9 +40,17 @@
 </div>
 
 <style>
-.text-brown { color: #c9c1b6 !important; }
-.btn-brown { background-color: #694d28; color: #fff; border: none; }
-.btn-brown:hover { background-color: #5a3e1f; }
+.text-brown {
+    color: #c9c1b6 !important;
+}
+.btn-brown {
+    background-color: #694d28;
+    color: #fff;
+    border: none;
+}
+.btn-brown:hover {
+    background-color: #5a3e1f;
+}
 
 .btn-secondary {
     background-color: #b8a898;

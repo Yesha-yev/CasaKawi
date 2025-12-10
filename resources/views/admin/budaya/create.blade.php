@@ -70,7 +70,6 @@
     </form>
 </div>
 
-{{-- SCRIPT MAP --}}
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 

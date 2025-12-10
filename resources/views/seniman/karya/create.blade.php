@@ -92,19 +92,32 @@
 </script>
 
 <style>
-.text-brown { color: #c9c1b6 !important; }
-.btn-brown { background-color: #694d28; color: #fff; border: none; }
-.btn-brown:hover { background-color: #5a3e1f; }
-
+.text-brown {
+    color: #c9c1b6 !important;
+}
+.btn-brown {
+    background-color: #694d28;
+    color: #fff;
+    border: none;
+}
+.btn-brown:hover {
+    background-color: #5a3e1f;
+}
 .form-wrapper {
     background-color: #fff8f0;
     border: 2px solid #d8cbbd;
     color: #4b3b2a;
 }
 
-.alert-info { background-color: #f8f0e0; color: #694d28; border:1px solid #d8cbbd; }
+.alert-info {
+    background-color: #f8f0e0;
+    color: #694d28;
+    border:1px solid #d8cbbd;
+}
 
-.form-control, .form-select, textarea, #map, #preview { border-radius: 6px; }
+.form-control, .form-select, textarea, #map, #preview {
+    border-radius: 6px;
+    }
 </style>
 
 @endsection

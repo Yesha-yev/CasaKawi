@@ -120,9 +120,17 @@
 </script>
 
 <style>
-.text-brown { color: #694d28 !important; }
-.btn-brown { background-color: #694d28; color: #fff; border: none; }
-.btn-brown:hover { background-color: #5a3e1f; }
+.text-brown {
+    color: #694d28 !important;
+}
+.btn-brown {
+    background-color: #694d28;
+    color: #fff;
+    border: none;
+}
+.btn-brown:hover {
+    background-color: #5a3e1f;
+}
 
 .form-wrapper {
     background-color: #fff8f0;
@@ -130,14 +138,28 @@
     color: #4b3b2a;
 }
 
-.alert-info { background-color: #f8f0e0; color: #694d28; border:1px solid #d8cbbd; }
+.alert-info {
+    background-color: #f8f0e0;
+    color: #694d28;
+    border:1px solid #d8cbbd;
+}
 
-audio { border-radius: 6px; }
+audio {
+    border-radius: 6px;
+}
 
-#preview { border-radius: 6px; }
+#preview {
+    border-radius: 6px;
+}
 
-.btn-secondary { background-color: #d8cbbd; color: #4b3b2a; border:none; }
-.btn-secondary:hover { background-color: #c2b09a; }
+.btn-secondary {
+    background-color: #d8cbbd;
+    color: #4b3b2a;
+    border:none;
+}
+.btn-secondary:hover {
+    background-color: #c2b09a;
+}
 </style>
 
 @endsection

@@ -4,8 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\ArtifactController;
-use App\Http\Controllers\TimelineController;
 use App\Http\Controllers\KaryaController;
 use App\Http\Controllers\SenimanController;
 use App\Http\Controllers\BudayaController;
@@ -77,8 +75,6 @@ Route::get('/galeri', [ArtifactController::class, 'index'])->name('gallery.index
 Route::get('/galeri/{id}', [ArtifactController::class, 'show'])->name('gallery.show');
 
 Route::get('/peta', [ArtifactController::class, 'map'])->name('gallery.map');
-
-Route::get('/timeline', [TimelineController::class, 'index'])->name('timeline.index');
 
 Route::get('/karya', [KaryaController::class, 'index'])->name('karya.index');
 Route::get('/budaya', [BudayaController::class, 'index'])->name('budaya.index');
