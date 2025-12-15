@@ -92,7 +92,7 @@ class SenimanController extends Controller
     public function dashboard()
     {
         $senimanId = auth()->id();
-        
+
         $total = Karya::where('seniman_id', $senimanId)->count();
         $approved = Karya::where('seniman_id', $senimanId)->where('status', 'approved')->count();
         $pending = Karya::where('seniman_id', $senimanId)->where('status', 'pending')->count();
@@ -102,8 +102,6 @@ class SenimanController extends Controller
         return view('seniman.dashboard', compact('total', 'approved', 'pending', 'rejected', 'considered'
         ));
     }
-
-
 
     public function editProfil()
     {
@@ -135,7 +133,10 @@ class SenimanController extends Controller
 
     public function indexKarya()
     {
-        $karyas = Karya::where('seniman_id', auth()->id())->latest()->get();
+        $karyas = Karya::where('seniman_id', auth()
+        ->id())
+        ->latest()
+        ->get();
         return view('seniman.karya.index', compact('karyas'));
     }
 
@@ -228,7 +229,9 @@ class SenimanController extends Controller
 
     public function deleteKarya($id)
     {
-        $karya = Karya::where('seniman_id', auth()->id())->findOrFail($id);
+        $karya = Karya::where('seniman_id', auth()
+        ->id())
+        ->findOrFail($id);
 
         if ($karya->gambar && file_exists(public_path($karya->gambar))) unlink(public_path($karya->gambar));
         if ($karya->audio && file_exists(public_path($karya->audio))) unlink(public_path($karya->audio));

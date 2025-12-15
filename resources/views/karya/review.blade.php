@@ -1,8 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mt-4">
-
+<div class="container py-5">
 @if(($mode ?? '') === 'list')
     <h3 class="mb-4 text-brown">Tinjauan Karya</h3>
     <div class="mb-4 d-flex gap-2 flex-wrap">
@@ -110,10 +109,9 @@
 
     </div>
 </div>
-
 @endif
 </div>
-
+@section('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const buttons = document.querySelectorAll('.filter-btn');
@@ -137,7 +135,8 @@
         });
     });
 </script>
-
+@endsection
+@section('styles')
 <style>
 .text-brown {
     color: #c9c1b6 !important;
@@ -293,5 +292,8 @@
 .btn-all.active {
     background-color: #694d28;
     color: #ffffff;
-
+}
 </style>
+@endsection
+
+@endsection

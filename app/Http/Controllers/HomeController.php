@@ -13,9 +13,7 @@ class HomeController extends Controller
     //
     public function index()
     {
-        //hitung jumlah karya per kategori pakai withCount
         $kategoriData = Kategori::withCount('karyas')->get();
-        // nama label untuk chart
         $budaya = Budaya::whereNotNull('latitude')
             ->whereNotNull('longitude')
             ->get(['id','nama','asal_daerah','latitude','longitude','deskripsi'])
@@ -31,7 +29,6 @@ class HomeController extends Controller
                 ];
             });
 
-        // Ambil data karya
         $karya = Karya::whereNotNull('latitude')
             ->whereNotNull('longitude')
             ->get(['id','nama_karya','asal_daerah','latitude','longitude','deskripsi'])
@@ -47,7 +44,6 @@ class HomeController extends Controller
                 ];
             });
 
-        // Gabungkan budaya + karya
         $lokasi = $budaya->merge($karya);
 
         return view('landing', compact('kategoriData','lokasi'));

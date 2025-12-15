@@ -8,12 +8,6 @@ use App\Models\Kategori;
 
 class BudayaController extends Controller
 {
-    public function statistik()
-    {
-        $kategoriData = Kategori::withCount('karyas')->get();
-        return view('admin.statistik', compact('kategoriData'));
-    }
-
     public function index()
     {
         $budaya = Budaya::all();
@@ -84,7 +78,7 @@ class BudayaController extends Controller
         $budaya->kategori = $request->kategori;
         $budaya->latitude = $request->latitude;
         $budaya->longitude = $request->longitude;
-        
+
         $budaya->save();
 
         return redirect()->route('budaya.index')->with('success', 'Budaya berhasil diperbarui.');

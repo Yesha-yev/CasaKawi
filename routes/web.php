@@ -71,11 +71,6 @@ Route::middleware(['auth','role:seniman'])->prefix('seniman')->group(function(){
 
 });
 
-Route::get('/galeri', [ArtifactController::class, 'index'])->name('gallery.index');
-Route::get('/galeri/{id}', [ArtifactController::class, 'show'])->name('gallery.show');
-
-Route::get('/peta', [ArtifactController::class, 'map'])->name('gallery.map');
-
 Route::get('/karya', [KaryaController::class, 'index'])->name('karya.index');
 Route::get('/budaya', [BudayaController::class, 'index'])->name('budaya.index');
 
